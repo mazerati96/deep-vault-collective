@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="index.html" />
+  </Folder>
+  <Folder Name="/Solution Items/assets/" />
+  <Folder Name="/Solution Items/assets/images/" />
+  <Folder Name="/Solution Items/assets/other/" />
+  <Folder Name="/Solution Items/css/">
+    <File Path="style.css" />
+  </Folder>
+  <Folder Name="/Solution Items/js/">
+    <File Path="main.js" />
+  </Folder>
+</Solution>
