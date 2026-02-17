@@ -22,11 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
             message: form.message.value.trim()
         };
 
-   
-
         try {
-           
-            await new Promise(resolve => setTimeout(resolve, 1200));
+            // Send to Vercel serverless function
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || 'Submission failed');
+            }
 
             // Show success
             form.reset();
@@ -38,7 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.classList.remove('sending');
             btnText.style.display = 'inline';
             btnSending.style.display = 'none';
-            alert('Something went wrong. Please try emailing directly at jkemp19992024@gmail.com');
+
+            console.error('Form submission error:', err);
+            alert('Something went wrong sending your message. Please try emailing directly at jkemp19992024@gmail.com');
         }
     });
 });
