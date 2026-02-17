@@ -1,21 +1,102 @@
-// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
+    const logoImg = document.getElementById('logo-img');
+    const canvas = document.getElementById('logo-canvas');
+    const ctx = canvas.getContext('2d');
     const enterBtn = document.querySelector('.enter-btn');
+    const splashContainer = document.querySelector('.splash-container');
 
+    // Wait for image to load
+    logoImg.onload = function () {
+        initPixelReveal();
+    };
+
+    // If image already loaded
+    if (logoImg.complete) {
+        initPixelReveal();
+    }
+
+    function initPixelReveal() {
+        // Set canvas size to match image
+        canvas.width = logoImg.offsetWidth;
+        canvas.height = logoImg.offsetHeight;
+
+        // Draw the logo onto the canvas
+        ctx.drawImage(logoImg, 0, 0, canvas.width, canvas.height);
+
+        // Get image data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = imageData.data;
+
+        // Clear canvas to start
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Hide the original image (draw it on canvas)
+        logoImg.style.opacity = '0';
+
+        // Create array of all pixel positions
+        const pixelPositions = [];
+        for (let y = 0; y < canvas.height; y++) {
+            for (let x = 0; x < canvas.width; x++) {
+                const index = (y * canvas.width + x) * 4;
+                const alpha = pixels[index + 3];
+
+                // Only include non-transparent pixels
+                if (alpha > 0) {
+                    pixelPositions.push({ x, y, index });
+                }
+            }
+        }
+
+        // Shuffle for random reveal (supposed to look more "drawn")
+        shuffleArray(pixelPositions);
+
+        // Reveal pixels gradually
+        const totalPixels = pixelPositions.length;
+        const duration = 2000; // 2 seconds
+        const pixelsPerFrame = Math.ceil(totalPixels / (duration / 16)); // ~60fps
+
+        let currentPixel = 0;
+
+        const revealInterval = setInterval(() => {
+            const batch = pixelsPerFrame * 2; // Reveal in batches for performance
+
+            for (let i = 0; i < batch && currentPixel < totalPixels; i++) {
+                const pixel = pixelPositions[currentPixel];
+                const index = pixel.index;
+
+                ctx.fillStyle = `rgba(${pixels[index]}, ${pixels[index + 1]}, ${pixels[index + 2]}, ${pixels[index + 3] / 255})`;
+                ctx.fillRect(pixel.x, pixel.y, 1, 1);
+
+                currentPixel++;
+            }
+
+            if (currentPixel >= totalPixels) {
+                clearInterval(revealInterval);
+            }
+        }, 16); // ~60fps
+    }
+
+    // Shuffle array helper
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Enter button click
     enterBtn.addEventListener('click', () => {
-        // Add click animation
         enterBtn.style.transform = 'scale(0.95)';
+        enterBtn.style.opacity = '0.5';
 
         setTimeout(() => {
-            // Fade out splash screen
-            document.querySelector('.splash-container').style.opacity = '0';
-            document.querySelector('.splash-container').style.transition = 'opacity 1s ease';
+            splashContainer.style.transition = 'opacity 1.2s ease';
+            splashContainer.style.opacity = '0';
 
-            // TODO: Navigate to main site after fade
             setTimeout(() => {
-                console.log('Transitioning to main site...');
-                // Add the star map here later possibly 
-            }, 1000);
+                console.log('Transitioning to star map...');
+                // Star map goes here
+            }, 1200);
         }, 100);
     });
 });

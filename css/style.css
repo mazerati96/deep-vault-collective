@@ -6,10 +6,22 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0a0a0f 0%, #1a0a28 50%, #0f0520 100%);
+    background: #000;
     min-height: 100vh;
     overflow: hidden;
 }
+
+    /* Black center, subtle purple edges */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at center, #000000 0%, #0a0412 60%, #12081d 100%);
+        z-index: -1;
+    }
 
 .splash-container {
     display: flex;
@@ -21,82 +33,110 @@ body {
 }
 
 .logo-container {
+    position: relative;
     opacity: 0;
-    transform: scale(0.8);
-    animation: logoFadeIn 2s ease-out forwards;
+    animation: containerFadeIn 0.5s ease-out 0.2s forwards;
 }
 
 .logo {
-    max-width: 400px;
-    width: 80vw;
+    max-width: 450px;
+    width: 85vw;
     height: auto;
-    filter: drop-shadow(0 0 30px rgba(100, 200, 255, 0.5));
+    /* Very subtle glow - just a hint */
+    filter: drop-shadow(0 0 15px rgba(100, 150, 200, 0.15));
+    position: relative;
+    z-index: 1;
 }
 
+/* Canvas for pixel reveal effect */
+#logo-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* BLUE BUTTON */
 .enter-btn {
-    margin-top: 60px;
-    padding: 16px 60px;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 4px;
+    margin-top: 80px;
+    padding: 18px 70px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 6px;
     color: #00d9ff;
     background: transparent;
-    border: 2px solid #00d9ff;
-    border-radius: 4px;
+    border: 3px solid #00d9ff;
+    border-radius: 0;
     cursor: pointer;
     opacity: 0;
-    transform: translateY(20px);
-    animation: buttonFadeIn 1s ease-out 1.5s forwards;
-    transition: all 0.3s ease;
+    transform: translateY(30px);
+    animation: buttonReveal 1.0s ease-out 1.0s forwards;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
 }
 
+    /* Left-to-right shimmer effect */
     .enter-btn::before {
         content: '';
         position: absolute;
         top: 0;
-        left: -100%;
+        left: -150%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.3), transparent);
-        transition: left 0.5s ease;
+        background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.4), transparent );
+        transition: left 0.6s ease;
     }
 
     .enter-btn:hover::before {
-        left: 100%;
+        left: 150%;
     }
 
     .enter-btn:hover {
-        background: rgba(0, 217, 255, 0.1);
-        box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-        transform: translateY(-2px);
+        background: rgba(0, 217, 255, 0.15);
+        box-shadow: 0 0 30px rgba(0, 217, 255, 0.6), 0 0 60px rgba(0, 217, 255, 0.3), inset 0 0 20px rgba(0, 217, 255, 0.1);
+        transform: translateY(-4px) scale(1.05);
+        letter-spacing: 8px;
     }
 
     .enter-btn:active {
-        transform: translateY(0);
+        transform: translateY(-2px) scale(1.02);
     }
 
-@keyframes logoFadeIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.8) translateY(-30px);
-    }
-
-    100% {
+/* Simple fade-ins */
+@keyframes containerFadeIn {
+    to {
         opacity: 1;
-        transform: scale(1) translateY(0);
     }
 }
 
-@keyframes buttonFadeIn {
+@keyframes buttonReveal {
     0% {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
 
     100% {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Minimal star field - very subtle */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.3), transparent), radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.2), transparent), radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.25), transparent), radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.2), transparent), radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.15), transparent), radial-gradient(1px 1px at 33% 90%, rgba(255,255,255,0.2), transparent);
+    background-size: 100% 100%;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
 }
