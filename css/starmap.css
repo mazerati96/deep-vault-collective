@@ -48,27 +48,31 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: auto; /* Changed from 100% */
-    height: auto; /* Changed from 100% */
-    animation: mapZoomIn 2s ease-out;
+    width: auto;
+    height: auto;
+    opacity: 0; /* Start invisible for fade-in */
 }
 
     .starmap-background img {
         width: auto;
         height: 120vh; /* Shows full height + extra room */
         max-width: none; /* Allows image to be wider than viewport */
-        object-fit: contain; /* Changed from cover - shows ENTIRE image */
+        object-fit: contain; /* Shows ENTIRE image */
         object-position: center;
+        display: block; /* Prevents weird inline spacing */
     }
 
-@keyframes mapZoomIn {
+    /* Fade in animation - triggered by JS */
+    .starmap-background.loaded {
+        animation: mapFadeIn 1.5s ease-out forwards;
+    }
+
+@keyframes mapFadeIn {
     from {
-        transform: translate(-50%, -50%) scale(1.1);
         opacity: 0;
     }
 
     to {
-        transform: translate(-50%, -50%) scale(1);
         opacity: 1;
     }
 }

@@ -1,7 +1,26 @@
-// Star Map Interactions - DRAGGABLE VERSION
+// Star Map Interactions - DRAGGABLE VERSION WITH FADE-IN
 document.addEventListener('DOMContentLoaded', () => {
     const planets = document.querySelectorAll('.planet');
     const starmapBackground = document.querySelector('.starmap-background');
+    const starmapImage = starmapBackground.querySelector('img');
+
+    // ============================================
+    // SMOOTH FADE-IN AFTER IMAGE LOADS
+    // ============================================
+
+    starmapImage.addEventListener('load', () => {
+        starmapBackground.style.transform = 'translate(-50%, -50%)';
+        setTimeout(() => {
+            starmapBackground.classList.add('loaded');
+        }, 100);
+    });
+
+    if (starmapImage.complete) {
+        starmapBackground.style.transform = 'translate(-50%, -50%)';
+        setTimeout(() => {
+            starmapBackground.classList.add('loaded');
+        }, 100);
+    }
 
     // Planet data
     const planetData = {
