@@ -1,0 +1,220 @@
+/* ============================================
+   STAR MAP PAGE STYLES
+   ============================================ */
+
+body {
+    overflow: hidden;
+}
+
+.starmap-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.starmap-title {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+    z-index: 10;
+    animation: titleFadeIn 1.5s ease-out;
+}
+
+@keyframes titleFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* ============================================
+   STAR MAP BACKGROUND
+   ============================================ */
+
+.starmap-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    animation: mapZoomIn 2s ease-out;
+}
+
+    .starmap-background img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+@keyframes mapZoomIn {
+    from {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   INTERACTIVE PLANETS
+   ============================================ */
+
+.planets {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+}
+
+.planet {
+    position: absolute;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+}
+
+.planet-hotspot {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.2) 0%, transparent 70%);
+    border: 2px solid rgba(0, 217, 255, 0);
+    transition: all 0.4s ease;
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Stagger the pulse animations */
+.planet:nth-child(1) .planet-hotspot {
+    animation-delay: 0s;
+}
+
+.planet:nth-child(2) .planet-hotspot {
+    animation-delay: 0.3s;
+}
+
+.planet:nth-child(3) .planet-hotspot {
+    animation-delay: 0.6s;
+}
+
+.planet:nth-child(4) .planet-hotspot {
+    animation-delay: 0.9s;
+}
+
+.planet:nth-child(5) .planet-hotspot {
+    animation-delay: 1.2s;
+}
+
+.planet:nth-child(6) .planet-hotspot {
+    animation-delay: 1.5s;
+}
+
+.planet:nth-child(7) .planet-hotspot {
+    animation-delay: 1.8s;
+}
+
+.planet:nth-child(8) .planet-hotspot {
+    animation-delay: 2.1s;
+}
+
+.planet:nth-child(9) .planet-hotspot {
+    animation-delay: 2.4s;
+}
+
+.planet:nth-child(10) .planet-hotspot {
+    animation-delay: 2.7s;
+}
+
+.planet:nth-child(11) .planet-hotspot {
+    animation-delay: 3s;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Planet Label */
+.planet-label {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0);
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+/* Hover Effects */
+.planet:hover .planet-hotspot {
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.5) 0%, transparent 70%);
+    border-color: rgba(0, 217, 255, 0.8);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.6), 0 0 60px rgba(0, 217, 255, 0.3), inset 0 0 20px rgba(0, 217, 255, 0.2);
+    transform: scale(1.3);
+}
+
+.planet:hover .planet-label {
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0 0 20px rgba(0, 217, 255, 0.8), 0 0 40px rgba(0, 217, 255, 0.4);
+    top: 70px;
+}
+
+/* Active/Click Effect */
+.planet:active .planet-hotspot {
+    transform: scale(1.1);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .starmap-title {
+        font-size: 1.5rem;
+        letter-spacing: 6px;
+        top: 20px;
+    }
+
+    .planet-hotspot {
+        width: 40px;
+        height: 40px;
+    }
+
+    .planet-label {
+        font-size: 0.7rem;
+        top: 60px;
+    }
+
+    .planet:hover .planet-label {
+        top: 50px;
+    }
+}

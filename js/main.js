@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear canvas to start
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Hide the original image (draw it on canvas)
+        // Hide the original image (we'll draw it on canvas)
         logoImg.style.opacity = '0';
 
         // Create array of all pixel positions
@@ -47,12 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Shuffle for random reveal (supposed to look more "drawn")
+        // Shuffle for random reveal (looks more "drawn")
         shuffleArray(pixelPositions);
 
         // Reveal pixels gradually
         const totalPixels = pixelPositions.length;
-        const duration = 3000; // 3 seconds
+        const duration = 2500; // 2.5 seconds
         const pixelsPerFrame = Math.ceil(totalPixels / (duration / 16)); // ~60fps
 
         let currentPixel = 0;
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Enter button click
+    // Enter button click - NAVIGATE TO STAR MAP
     enterBtn.addEventListener('click', () => {
         enterBtn.style.transform = 'scale(0.95)';
         enterBtn.style.opacity = '0.5';
@@ -94,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
             splashContainer.style.opacity = '0';
 
             setTimeout(() => {
-                console.log('Transitioning to star map...');
-                // Star map goes here
+                // Navigate to star map page
+                window.location.href = 'pages/starmap.html';
             }, 1200);
         }, 100);
     });
