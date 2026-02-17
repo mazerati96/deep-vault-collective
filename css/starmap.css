@@ -48,21 +48,22 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
+    width: auto; /* Changed from 100% */
+    height: auto; /* Changed from 100% */
     animation: mapZoomIn 2s ease-out;
 }
 
     .starmap-background img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: auto;
+        height: 120vh; /* Shows full height + extra room */
+        max-width: none; /* Allows image to be wider than viewport */
+        object-fit: contain; /* Changed from cover - shows ENTIRE image */
         object-position: center;
     }
 
 @keyframes mapZoomIn {
     from {
-        transform: translate(-50%, -50%) scale(1.2);
+        transform: translate(-50%, -50%) scale(1.1);
         opacity: 0;
     }
 
