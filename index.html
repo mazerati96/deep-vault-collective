@@ -77,7 +77,7 @@
         }
 
             .enter-btn.visible {
-                animation: btnReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+                animation: btnReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; /*changed to 2.5s to see if button loads slower*/
             }
 
         @keyframes btnReveal {
@@ -139,10 +139,10 @@
 
         // SPEED CONTROLS - tweak these to taste
         const STAGGER_MS = 250;  // delay between each path starting
-        const DRAW_DURATION = 700;  // how long each stroke draws (ms)
+        const DRAW_DURATION = 2000;  // how long each stroke draws (ms)
         const FILL_START = 250;  // ms after stroke starts → fill begins
-        const FILL_DURATION = 450;  // how long fill blooms in
-        const STROKE_FADE = 300;  // ms after fill starts → stroke fades
+        const FILL_DURATION = 1000;  // how long fill blooms in
+        const STROKE_FADE = 600;  // ms after fill starts → stroke fades
 
         const paths = Array.from(document.querySelectorAll('.logo-path'));
 
