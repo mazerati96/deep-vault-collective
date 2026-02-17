@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Reveal pixels gradually
         const totalPixels = pixelPositions.length;
-        const duration = 2000; // 2 seconds
+        const duration = 3000; // 3 seconds
         const pixelsPerFrame = Math.ceil(totalPixels / (duration / 16)); // ~60fps
 
         let currentPixel = 0;
