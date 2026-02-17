@@ -195,12 +195,18 @@
                     }, startMs + FILL_START + FILL_DURATION);
                 });
 
-                // ENTER BUTTON + glow reveal
+                // ENTER BUTTON flows in simultaneously with logo drawing
+                // Logo glow fires after everything completes
                 const lastStart = (paths.length - 1) * STAGGER_MS;
-                const totalTime = lastStart + DRAW_DURATION + FILL_DURATION + 150;
+                const totalTime = lastStart + DRAW_DURATION + FILL_DURATION + 600;
 
+                // Button rises immediately when page loads
                 setTimeout(() => {
                     document.getElementById('enterBtn').classList.add('visible');
+                }, 600); // tiny 600ms delay so it doesn't pop in before anything starts
+
+                // Glow still fires after logo completes
+                setTimeout(() => {
                     document.getElementById('logoWrapper').style.filter =
                         'drop-shadow(0 0 40px rgba(70, 162, 191, 0.45))';
                 }, totalTime);
