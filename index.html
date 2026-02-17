@@ -138,11 +138,11 @@
         // ============================================================
 
         // SPEED CONTROLS - tweak these to taste
-        const STAGGER_MS = 500;  // delay between each path starting
-        const DRAW_DURATION = 1400;  // how long each stroke draws (ms)
-        const FILL_START = 500;  // ms after stroke starts → fill begins
-        const FILL_DURATION = 900;  // how long fill blooms in
-        const STROKE_FADE = 600;  // ms after fill starts → stroke fades
+        const STAGGER_MS = 250;  // delay between each path starting
+        const DRAW_DURATION = 700;  // how long each stroke draws (ms)
+        const FILL_START = 250;  // ms after stroke starts → fill begins
+        const FILL_DURATION = 450;  // how long fill blooms in
+        const STROKE_FADE = 300;  // ms after fill starts → stroke fades
 
         const paths = Array.from(document.querySelectorAll('.logo-path'));
 
@@ -197,7 +197,7 @@
 
                 // ENTER BUTTON + glow reveal
                 const lastStart = (paths.length - 1) * STAGGER_MS;
-                const totalTime = lastStart + DRAW_DURATION + FILL_DURATION + 300;
+                const totalTime = lastStart + DRAW_DURATION + FILL_DURATION + 150;
 
                 setTimeout(() => {
                     document.getElementById('enterBtn').classList.add('visible');
