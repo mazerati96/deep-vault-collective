@@ -71,10 +71,10 @@ export default async function handler(req, res) {
                     </h2>
                     
                     <div style="background-color: rgba(0, 217, 255, 0.05); padding: 24px; margin: 24px 0; border: 1px solid rgba(0, 217, 255, 0.2);">
-                        <p style="margin: 8px 0;"><strong style="color: #4EBBD2;">From:</strong> ${name}</p>
-                        <p style="margin: 8px 0;"><strong style="color: #4EBBD2;">Email:</strong> <a href="mailto:${email}" style="color: #00d9ff; text-decoration: none;">${email}</a></p>
-                        <p style="margin: 8px 0;"><strong style="color: #4EBBD2;">Subject:</strong> <span style="color: #ffffff;">${subject}</span></p>
-                        <p style="margin: 8px 0;"><strong style="color: #4EBBD2;">Sent:</strong> ${new Date().toLocaleString('en-US', {
+                        <p style="margin: 8px 0; color: #ffffff;"><strong style="color: #4EBBD2;">From:</strong> ${name}</p>
+                        <p style="margin: 8px 0; color: #ffffff;"><strong style="color: #4EBBD2;">Email:</strong> <a href="mailto:${email}" style="color: #00d9ff; text-decoration: none;">${email}</a></p>
+                        <p style="margin: 8px 0; color: #ffffff;"><strong style="color: #4EBBD2;">Subject:</strong> <span style="color: #ffffff;">${subject}</span></p>
+                        <p style="margin: 8px 0; color: #ffffff;"><strong style="color: #4EBBD2;">Sent:</strong> ${new Date().toLocaleString('en-US', {
                 timeZone: 'America/Los_Angeles',
                 dateStyle: 'full',
                 timeStyle: 'long'
@@ -83,7 +83,7 @@ export default async function handler(req, res) {
                     
                     <div style="background-color: rgba(255, 255, 255, 0.03); padding: 24px; margin: 24px 0; border-left: 3px solid #00d9ff;">
                         <p style="color: #4EBBD2; margin-bottom: 12px;"><strong>MESSAGE:</strong></p>
-                        <p style="color: #e0e0e0; line-height: 1.8; white-space: pre-wrap; font-size: 15px;">${message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+                        <p style="color: #ffffff; line-height: 1.8; white-space: pre-wrap; font-size: 15px;">${message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
                     </div>
                     
                     <div style="margin-top: 30px; padding: 18px; background-color: rgba(0, 217, 255, 0.08); border: 1px solid rgba(0, 217, 255, 0.3);">

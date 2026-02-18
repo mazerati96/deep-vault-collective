@@ -1,8 +1,9 @@
-// Star Map Interactions - DRAGGABLE VERSION WITH FADE-IN
+// Star Map Interactions - FIXED DRAGGABLE VERSION
 document.addEventListener('DOMContentLoaded', () => {
     const planets = document.querySelectorAll('.planet');
     const starmapBackground = document.querySelector('.starmap-background');
     const starmapImage = starmapBackground.querySelector('img');
+    const container = document.querySelector('.starmap-container');
 
     // ============================================
     // SMOOTH FADE-IN AFTER IMAGE LOADS
@@ -42,76 +43,93 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
 
     let isDragging = false;
+    let hasDragged = false;  // Track if we actually dragged
     let startX = 0;
     let startY = 0;
-    let translateX = 0;
-    let translateY = 0;
     let currentX = 0;
     let currentY = 0;
 
-    const container = document.querySelector('.starmap-container');
+    // Set initial cursor
+    container.style.cursor = 'grab';
 
-    container.addEventListener('mousedown', startDrag);
-    container.addEventListener('mousemove', drag);
-    container.addEventListener('mouseup', endDrag);
-    container.addEventListener('mouseleave', endDrag);
-
-    // Touch support for mobile
-    container.addEventListener('touchstart', handleTouchStart);
-    container.addEventListener('touchmove', handleTouchMove);
-    container.addEventListener('touchend', endDrag);
-
-    function startDrag(e) {
+    // Mouse events
+    container.addEventListener('mousedown', (e) => {
         isDragging = true;
+        hasDragged = false;
         startX = e.clientX - currentX;
         startY = e.clientY - currentY;
         container.style.cursor = 'grabbing';
-    }
+        e.preventDefault();
+    });
 
-    function drag(e) {
+    document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
 
         e.preventDefault();
-        currentX = e.clientX - startX;
-        currentY = e.clientY - startY;
 
-        // Limit drag boundaries so map doesn't go too far
+        const newX = e.clientX - startX;
+        const newY = e.clientY - startY;
+
+        // Check if actually dragged (more than 3px movement)
+        if (Math.abs(newX - currentX) > 3 || Math.abs(newY - currentY) > 3) {
+            hasDragged = true;
+        }
+
+        currentX = newX;
+        currentY = newY;
+
+        // Limit drag boundaries
         const maxDrag = 500;
         currentX = Math.max(-maxDrag, Math.min(maxDrag, currentX));
         currentY = Math.max(-maxDrag, Math.min(maxDrag, currentY));
 
         starmapBackground.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
-    }
+    });
 
-    function endDrag() {
+    document.addEventListener('mouseup', () => {
         isDragging = false;
         container.style.cursor = 'grab';
-    }
+    });
 
-    function handleTouchStart(e) {
+    // Touch support for mobile
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    container.addEventListener('touchstart', (e) => {
         isDragging = true;
+        hasDragged = false;
         const touch = e.touches[0];
-        startX = touch.clientX - currentX;
-        startY = touch.clientY - currentY;
-    }
+        touchStartX = touch.clientX - currentX;
+        touchStartY = touch.clientY - currentY;
+        e.preventDefault();
+    });
 
-    function handleTouchMove(e) {
+    container.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
 
         e.preventDefault();
         const touch = e.touches[0];
-        currentX = touch.clientX - startX;
-        currentY = touch.clientY - startY;
+
+        const newX = touch.clientX - touchStartX;
+        const newY = touch.clientY - touchStartY;
+
+        if (Math.abs(newX - currentX) > 3 || Math.abs(newY - currentY) > 3) {
+            hasDragged = true;
+        }
+
+        currentX = newX;
+        currentY = newY;
 
         const maxDrag = 500;
         currentX = Math.max(-maxDrag, Math.min(maxDrag, currentX));
         currentY = Math.max(-maxDrag, Math.min(maxDrag, currentY));
 
         starmapBackground.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
-    }
+    });
 
-    // Set initial cursor
-    container.style.cursor = 'grab';
+    container.addEventListener('touchend', () => {
+        isDragging = false;
+    });
 
     // ============================================
     // PLANET CLICK HANDLERS
@@ -119,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     planets.forEach(planet => {
         planet.addEventListener('click', (e) => {
-            // Only trigger if not dragging
-            if (Math.abs(currentX - translateX) < 5 && Math.abs(currentY - translateY) < 5) {
+            // Only trigger if we DIDN'T drag
+            if (!hasDragged) {
                 const planetName = planet.getAttribute('data-planet');
                 const data = planetData[planetName];
 
@@ -133,12 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 600);
                 }
             }
-        });
-    });
 
-    // Update translate values on mouse up
-    container.addEventListener('mouseup', () => {
-        translateX = currentX;
-        translateY = currentY;
+            // Reset drag flag
+            hasDragged = false;
+        });
     });
 });
