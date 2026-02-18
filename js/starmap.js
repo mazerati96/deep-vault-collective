@@ -25,17 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Planet data
     const planetData = {
-        wuld: { name: 'Wuld', description: 'Home to the story "A Rogue\'s Tale"', link: 'wuld.html' },
-        jesnen: { name: 'Jesnen', description: 'Coming soon...', link: 'jesnen.html' },
-        ilun: { name: 'Ilun', description: 'Coming soon...', link: 'ilun.html' },
-        westelox: { name: 'Westelox', description: 'Coming soon...', link: 'westelox.html' },
-        xenderon: { name: 'Xenderon (Hell)', description: 'Coming soon...', link: 'xenderon.html' },
-        vyomi: { name: 'Vyomi (Heaven)', description: 'Coming soon...', link: 'vyomi.html' },
-        edereb: { name: 'Edereb', description: 'Coming soon...', link: 'edereb.html' },
-        omicros: { name: 'Omicros', description: 'Coming soon...', link: 'omicros.html' },
-        astraea: { name: 'Astraea', description: 'Coming soon...', link: 'astraea.html' },
-        rexus: { name: 'Rexus', description: 'Coming soon...', link: 'rexus.html' },
-        legatius: { name: 'Legatius', description: 'Coming soon...', link: 'legatius.html' }
+        wuld: { name: 'Wuld', description: 'Home to the story "A Rogue\'s Tale"', link: 'worlds.html' },
+        jesnen: { name: 'Jesnen', description: 'Coming soon...', link: 'worlds.html' },
+        ilun: { name: 'Ilun', description: 'Coming soon...', link: 'worlds.html' },
+        westelox: { name: 'Westelox', description: 'Coming soon...', link: 'worlds.html' },
+        xenderon: { name: 'Xenderon (Hell)', description: 'Coming soon...', link: 'worlds.html' },
+        vyomi: { name: 'Vyomi (Heaven)', description: 'Coming soon...', link: 'worlds.html' },
+        edereb: { name: 'Edereb', description: 'Coming soon...', link: 'worlds.html' },
+        omicros: { name: 'Omicros', description: 'Coming soon...', link: 'worlds.html' },
+        astraea: { name: 'Astraea', description: 'Coming soon...', link: 'worlds.html' },
+        rexus: { name: 'Rexus', description: 'Coming soon...', link: 'worlds.html' },
+        legatius: { name: 'Legatius', description: 'Coming soon...', link: 'worlds.html' }
     };
 
     // ============================================
