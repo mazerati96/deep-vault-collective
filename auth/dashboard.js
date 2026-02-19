@@ -1,33 +1,33 @@
-// Dashboard Logic - Protected Page
+// ============================================================
+//  DASHBOARD LOGIC — Protected Page
+//  Firebase v9 modular syntax via CDN ESM
+// ============================================================
+
+import { auth } from "../auth/firebase-config.js";
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 document.addEventListener('DOMContentLoaded', () => {
-    const authLoading = document.getElementById('authLoading');
-    const dashboardContainer = document.getElementById('dashboardContainer');
     const userEmailEl = document.getElementById('userEmail');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    // Check authentication state
-    auth.onAuthStateChanged((user) => {
+    // ── Auth guard — redirect to login if not authenticated ──
+    onAuthStateChanged(auth, (user) => {
         if (user) {
-            // User is signed in - show dashboard
             console.log('✅ Authenticated:', user.uid);
-
-            userEmailEl.textContent = user.email;
-
-            // Hide loading, show dashboard
-            authLoading.style.display = 'none';
-            dashboardContainer.style.display = 'block';
-
+            if (userEmailEl) userEmailEl.textContent = user.email;
         } else {
-            // No user signed in - redirect to login
-            console.log('❌ Not authenticated - redirecting to login');
+            console.log('❌ Not authenticated — redirecting to login');
             window.location.href = 'author-login.html';
         }
     });
 
-    // Logout button
+    // ── Logout ──
     logoutBtn.addEventListener('click', async () => {
         try {
-            await auth.signOut();
+            await signOut(auth);
             console.log('✅ Signed out');
             window.location.href = 'author-login.html';
         } catch (error) {
