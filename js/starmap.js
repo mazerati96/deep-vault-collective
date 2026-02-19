@@ -1,4 +1,4 @@
-// Star Map Interactions - FIXED DRAGGABLE VERSION
+// Star Map Interactions - FIXED DRAGGABLE + MOBILE TAP VERSION
 document.addEventListener('DOMContentLoaded', () => {
     const planets = document.querySelectorAll('.planet');
     const starmapBackground = document.querySelector('.starmap-background');
@@ -38,21 +38,33 @@ document.addEventListener('DOMContentLoaded', () => {
         legatius: { name: 'Legatius', description: 'Coming soon...', link: 'worlds.html' }
     };
 
+    // Helper: trigger page transition and navigate
+    function navigateToPlanet(planetName) {
+        const data = planetData[planetName];
+        if (data) {
+            const transition = document.querySelector('.page-transition');
+            transition.classList.add('active');
+            setTimeout(() => {
+                window.location.href = data.link;
+            }, 600);
+        }
+    }
+
     // ============================================
     // DRAGGABLE MAP FUNCTIONALITY
     // ============================================
 
     let isDragging = false;
-    let hasDragged = false;  // Track if we actually dragged
+    let hasDragged = false;
     let startX = 0;
     let startY = 0;
     let currentX = 0;
     let currentY = 0;
 
-    // Set initial cursor
     container.style.cursor = 'grab';
 
-    // Mouse events
+    // --- Mouse events (desktop) ---
+
     container.addEventListener('mousedown', (e) => {
         isDragging = true;
         hasDragged = false;
@@ -64,13 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
-
         e.preventDefault();
 
         const newX = e.clientX - startX;
         const newY = e.clientY - startY;
 
-        // Check if actually dragged (more than 3px movement)
         if (Math.abs(newX - currentX) > 3 || Math.abs(newY - currentY) > 3) {
             hasDragged = true;
         }
@@ -78,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentX = newX;
         currentY = newY;
 
-        // Limit drag boundaries
         const maxDrag = 500;
         currentX = Math.max(-maxDrag, Math.min(maxDrag, currentX));
         currentY = Math.max(-maxDrag, Math.min(maxDrag, currentY));
@@ -91,7 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
         container.style.cursor = 'grab';
     });
 
-    // Touch support for mobile
+    // --- Touch events (mobile) ---
+
     let touchStartX = 0;
     let touchStartY = 0;
 
@@ -102,14 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
         touchStartX = touch.clientX - currentX;
         touchStartY = touch.clientY - currentY;
         e.preventDefault();
-    });
+    }, { passive: false });
 
     container.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
-
         e.preventDefault();
-        const touch = e.touches[0];
 
+        const touch = e.touches[0];
         const newX = touch.clientX - touchStartX;
         const newY = touch.clientY - touchStartY;
 
@@ -125,35 +134,40 @@ document.addEventListener('DOMContentLoaded', () => {
         currentY = Math.max(-maxDrag, Math.min(maxDrag, currentY));
 
         starmapBackground.style.transform = `translate(calc(-50% + ${currentX}px), calc(-50% + ${currentY}px))`;
-    });
+    }, { passive: false });
 
     container.addEventListener('touchend', () => {
         isDragging = false;
     });
 
     // ============================================
-    // PLANET CLICK HANDLERS
+    // PLANET CLICK HANDLERS (desktop)
     // ============================================
 
     planets.forEach(planet => {
         planet.addEventListener('click', (e) => {
-            // Only trigger if we DIDN'T drag
             if (!hasDragged) {
-                const planetName = planet.getAttribute('data-planet');
-                const data = planetData[planetName];
-
-                if (data) {
-                    const transition = document.querySelector('.page-transition');
-                    transition.classList.add('active');
-
-                    setTimeout(() => {
-                        window.location.href = data.link;
-                    }, 600);
-                }
+                navigateToPlanet(planet.getAttribute('data-planet'));
             }
-
-            // Reset drag flag
             hasDragged = false;
         });
     });
+
+    // ============================================
+    // PLANET TAP HANDLERS (mobile)
+    // FIX: container touchstart calls e.preventDefault(), which blocks
+    // the synthetic 'click' event mobile browsers normally fire after a tap.
+    // So we listen for touchend directly on each planet instead, and
+    // navigate if the finger didn't meaningfully move (hasDragged is false).
+    // ============================================
+
+    planets.forEach(planet => {
+        planet.addEventListener('touchend', (e) => {
+            if (!hasDragged) {
+                e.stopPropagation(); // prevent container touchend from interfering
+                navigateToPlanet(planet.getAttribute('data-planet'));
+            }
+        });
+    });
+
 });
