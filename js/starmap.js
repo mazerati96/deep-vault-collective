@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Planet data
     const planetData = {
-        wuld: { name: 'Wuld', description: 'Home to the story "A Rogue\'s Tale"', link: 'worlds.html' },
+        wuld: {
+            name: 'Wuld', link: 'wuld.html' },
         jesnen: { name: 'Jesnen', description: 'Coming soon...', link: 'worlds.html' },
         ilun: { name: 'Ilun', link: 'ilun.html' },
         westelox: { name: 'Westelox', description: 'Coming soon...', link: 'worlds.html' },
