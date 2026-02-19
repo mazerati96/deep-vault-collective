@@ -100,12 +100,13 @@ body {
     pointer-events: all; /* But planets are clickable */
 }
 
+/* FIX: Give hotspot a visible default state so dots show on mobile (no hover available) */
 .planet-hotspot {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 217, 255, 0.2) 0%, transparent 70%);
-    border: 2px solid rgba(0, 217, 255, 0);
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.35) 0%, transparent 70%);
+    border: 2px solid rgba(0, 217, 255, 0.5); /* was 0 alpha — now visible */
     transition: all 0.4s ease;
     animation: pulseGlow 3s ease-in-out infinite;
 }
@@ -182,7 +183,7 @@ body {
     pointer-events: none;
 }
 
-/* Hover Effects */
+/* Hover Effects (desktop only — mobile uses tap) */
 .planet:hover .planet-hotspot {
     background: radial-gradient(circle, rgba(0, 217, 255, 0.5) 0%, transparent 70%);
     border-color: rgba(0, 217, 255, 0.8);
@@ -212,9 +213,13 @@ body {
         top: 20px;
     }
 
+    /* FIX: Boost visibility on mobile since there's no hover state */
     .planet-hotspot {
         width: 40px;
         height: 40px;
+        background: radial-gradient(circle, rgba(0, 217, 255, 0.45) 0%, transparent 70%);
+        border: 2px solid rgba(0, 217, 255, 0.7);
+        box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
     }
 
     .planet-label {
