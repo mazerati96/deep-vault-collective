@@ -425,6 +425,36 @@ body {
 }
 
 /* ============================================
+   WORLD PAGE BUTTONS GRID
+   ============================================ */
+
+.world-btn-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.world-page-btn {
+    text-align: center;
+    padding: 16px 12px;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    justify-content: center;
+}
+
+@media (max-width: 900px) {
+    .world-btn-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .world-btn-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ============================================
    MAP CTA
    ============================================ */
 
