@@ -1,29 +1,37 @@
-// Login Page Logic
+// ============================================================
+//  LOGIN PAGE LOGIC
+//  Firebase v9 modular syntax via CDN ESM
+// ============================================================
+
+import { auth } from "../auth/firebase-config.js";
+import {
+    onAuthStateChanged,
+    signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const loginBtn = document.getElementById('loginBtn');
     const btnText = loginBtn.querySelector('.btn-text');
     const btnLoading = loginBtn.querySelector('.btn-loading');
-    const authError = document.getElementById('authError');
-    const authSuccess = document.getElementById('authSuccess');
+    const authError = document.getElementById('errorMessage'); // matches your HTML id
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
 
-    // Check if already logged in
-    auth.onAuthStateChanged((user) => {
+    // ── If already logged in, skip straight to dashboard ──
+    onAuthStateChanged(auth, (user) => {
         if (user) {
-            // User is signed in, redirect to dashboard
             window.location.href = 'author-dashboard.html';
         }
     });
 
-    // Handle form submission
+    // ── Form submission ──
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Hide previous messages
+        // Clear previous errors
         authError.style.display = 'none';
-        authSuccess.style.display = 'none';
+        authError.textContent = '';
 
         // Show loading state
         loginBtn.classList.add('loading');
@@ -34,20 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = passwordInput.value;
 
         try {
-            // Sign in with Firebase Auth
-            const userCredential = await auth.signInWithEmailAndPassword(email, password);
-            const user = userCredential.user;
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log('✅ Signed in:', userCredential.user.uid);
 
-            console.log('✅ Signed in:', user.uid);
-
-            // Show success
-            authSuccess.style.display = 'block';
-            loginForm.reset();
-
-            // Redirect to dashboard after 1 second
+            // Brief pause so the user sees the button state, then redirect
             setTimeout(() => {
                 window.location.href = 'author-dashboard.html';
-            }, 1000);
+            }, 800);
 
         } catch (error) {
             console.error('❌ Login error:', error);
@@ -57,22 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
             btnText.style.display = 'inline';
             btnLoading.style.display = 'none';
 
-            // Show user-friendly error message
-            let errorMessage = 'Login failed. Please try again.';
+            // User-friendly error messages
+            const errorMessages = {
+                'auth/user-not-found': 'No account found with this email.',
+                'auth/wrong-password': 'Incorrect password.',
+                'auth/invalid-email': 'Invalid email address.',
+                'auth/invalid-credential': 'Invalid email or password.',
+                'auth/too-many-requests': 'Too many failed attempts. Try again later.',
+                'auth/network-request-failed': 'Network error. Check your connection.',
+            };
 
-            if (error.code === 'auth/user-not-found') {
-                errorMessage = 'No account found with this email.';
-            } else if (error.code === 'auth/wrong-password') {
-                errorMessage = 'Incorrect password.';
-            } else if (error.code === 'auth/invalid-email') {
-                errorMessage = 'Invalid email address.';
-            } else if (error.code === 'auth/too-many-requests') {
-                errorMessage = 'Too many failed attempts. Try again later.';
-            } else if (error.code === 'auth/network-request-failed') {
-                errorMessage = 'Network error. Check your connection.';
-            }
-
-            authError.textContent = errorMessage;
+            authError.textContent = errorMessages[error.code] || 'Login failed. Please try again.';
             authError.style.display = 'block';
         }
     });

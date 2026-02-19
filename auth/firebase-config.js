@@ -1,9 +1,12 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// ============================================================
+//  FIREBASE CONFIG
+//  Using CDN ESM imports — no bundler required
+// ============================================================
 
-// Your web app's Firebase configuration
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyAwZMXM8GKjxqLi49IDAtYQ-qOh8xwfPGw",
     authDomain: "deep-vault-collective.firebaseapp.com",
@@ -15,3 +18,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Export auth and db so other modules can import them
+export const auth = getAuth(app);
+export const db = getFirestore(app);
