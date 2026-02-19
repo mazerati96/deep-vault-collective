@@ -105,7 +105,7 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById('authBadgeLogout').addEventListener('click', async () => {
         try {
             await signOut(auth);
-            window.location.href = '../pages/author-login.html';
+            //window.location.href = '../pages/author-login.html'; commented out to see if the badge disappears without redirecting, which it should. If it does, we can remove the redirect to login page and just rely on the badge visibility as an indicator of auth state.
         } catch (error) {
             console.error('❌ Logout error:', error);
             alert('Error signing out. Please try again.');
