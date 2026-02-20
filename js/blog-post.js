@@ -1,47 +1,54 @@
-// Individual Blog Post Page
+// ============================================================
+//  Individual Blog Post Page — ES Module, modular Firebase v10
+// ============================================================
+
+import { auth } from "../auth/firebase-config.js";
+import { db }   from "../auth/firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const loadingContainer = document.getElementById('loadingContainer');
-    const postContainer = document.getElementById('postContainer');
-    const postDate = document.getElementById('postDate');
-    const postTitle = document.getElementById('postTitle');
-    const postContent = document.getElementById('postContent');
-    const draftBadge = document.getElementById('draftBadge');
+    const postContainer    = document.getElementById('postContainer');
+    const postDateEl       = document.getElementById('postDate');
+    const postTitleEl      = document.getElementById('postTitle');
+    const postContentEl    = document.getElementById('postContent');
+    const draftBadge       = document.getElementById('draftBadge');
 
-    // Get post ID from URL parameter
+    // Get post ID from URL
     const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
+    const postId    = urlParams.get('id');
 
     if (!postId) {
-        // No post ID provided - redirect to blog list
         window.location.href = 'blog.html';
         return;
     }
 
-    // Load the post
-    loadPost(postId);
+    // We need auth state before deciding whether to show drafts
+    onAuthStateChanged(auth, (user) => {
+        loadPost(postId, user);
+    });
 
-    async function loadPost(id) {
+    async function loadPost(id, user) {
         try {
-            const postDoc = await db.collection('blog-posts').doc(id).get();
+            const postRef  = doc(db, 'blog-posts', id);
+            const postSnap = await getDoc(postRef);
 
-            if (!postDoc.exists) {
-                // Post not found
-                alert('Post not found');
+            if (!postSnap.exists()) {
+                alert('Post not found.');
                 window.location.href = 'blog.html';
                 return;
             }
 
-            const post = postDoc.data();
+            const post = postSnap.data();
 
-            // Check if it's a draft and user is not author
-            const user = auth.currentUser;
+            // Block draft access for non-authors
             if (!post.published && !user) {
                 alert('This post is not yet published.');
                 window.location.href = 'blog.html';
                 return;
             }
 
-            // Display the post
             displayPost(post);
 
         } catch (error) {
@@ -52,33 +59,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayPost(post) {
-        // Set title (also updates page title)
-        postTitle.textContent = post.title;
+        // Page title
+        postTitleEl.textContent = post.title;
         document.title = `${post.title} | Deep Vault Collective`;
 
-        // Set date
+        // Date
         if (post.createdAt) {
-            const date = new Date(post.createdAt.toDate());
-            postDate.textContent = date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+            postDateEl.textContent = new Date(post.createdAt.toDate()).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
             });
         } else {
-            postDate.textContent = 'Draft';
+            postDateEl.textContent = 'Draft';
         }
 
-        // Show draft badge if unpublished
+        // Draft badge
         if (!post.published) {
             draftBadge.style.display = 'inline-block';
         }
 
-        // Render content (simple markdown)
-        postContent.innerHTML = renderMarkdown(post.content);
+        // Render markdown content
+        postContentEl.innerHTML = renderMarkdown(post.content);
 
-        // Show post, hide loading
+        // Show post
         loadingContainer.style.display = 'none';
-        postContainer.style.display = 'block';
+        postContainer.style.display    = 'block';
     }
 
     // ============================================
@@ -88,32 +92,35 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderMarkdown(text) {
         if (!text) return '';
 
-        let html = text;
+        let html = escapeHtml(text);
 
-        // Escape HTML first
-        html = escapeHtml(html);
-
-        // Headers (## Header)
-        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        // Headers
+        html = html.replace(/^## (.+)$/gm,  '<h2>$1</h2>');
         html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
 
-        // Bold (**text**)
+        // Bold & italic
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.+?)\*/g,     '<em>$1</em>');
 
-        // Italic (*text*)
-        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-
-        // Links ([text](url))
+        // Links
         html = html.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-        // Paragraphs (double line break = new paragraph)
+        // Blockquotes
+        html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+        // Horizontal rules
+        html = html.replace(/^---$/gm, '<hr>');
+
+        // Paragraphs (double newline)
         html = html.split('\n\n').map(para => {
-            if (para.trim().startsWith('<h')) return para; // Don't wrap headers
-            return para.trim() ? `<p>${para.trim()}</p>` : '';
+            para = para.trim();
+            if (!para) return '';
+            if (para.startsWith('<h') || para.startsWith('<blockquote') || para.startsWith('<hr')) return para;
+            return `<p>${para}</p>`;
         }).join('\n');
 
-        // Line breaks within paragraphs
-        html = html.replace(/\n/g, '<br>');
+        // Single line breaks within paragraphs
+        html = html.replace(/(?<!>)\n(?!<)/g, '<br>');
 
         return html;
     }

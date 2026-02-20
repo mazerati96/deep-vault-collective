@@ -1,4 +1,23 @@
-// Blog Page Logic - Full CRUD with Auth Detection
+// ============================================================
+//  Blog Page Logic — ES Module, modular Firebase v10 SDK
+// ============================================================
+
+import { auth } from "../auth/firebase-config.js";
+import { db } from "../auth/firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+    collection,
+    query,
+    orderBy,
+    getDocs,
+    getDoc,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 let currentUser = null;
 let editingPostId = null;
 
@@ -14,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelBtn = document.getElementById('cancelBtn');
 
     // Form fields
-    const postTitle = document.getElementById('postTitle');
-    const postExcerpt = document.getElementById('postExcerpt');
-    const postContent = document.getElementById('postContent');
+    const postTitleField = document.getElementById('postTitle');
+    const postExcerptField = document.getElementById('postExcerpt');
+    const postContentField = document.getElementById('postContent');
     const postPublished = document.getElementById('postPublished');
     const postIdField = document.getElementById('postId');
     const modalTitle = document.getElementById('modalTitle');
@@ -29,28 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const excerptCount = document.getElementById('excerptCount');
 
     // ============================================
-    // AUTH STATE DETECTION
+    // AUTH STATE
     // ============================================
 
-    auth.onAuthStateChanged((user) => {
+    onAuthStateChanged(auth, (user) => {
         currentUser = user;
-
-        if (user) {
-            // Author is logged in - show New Post button
-            newPostBtn.style.display = 'inline-block';
-            console.log('✅ Author logged in:', user.email);
-        } else {
-            // Not logged in - hide author controls
-            newPostBtn.style.display = 'none';
-            console.log('👤 Viewing as public user');
-        }
-
-        // Load posts regardless of auth state
+        newPostBtn.style.display = user ? 'inline-block' : 'none';
         loadPosts();
     });
 
     // ============================================
-    // LOAD POSTS FROM FIRESTORE
+    // LOAD POSTS
     // ============================================
 
     async function loadPosts() {
@@ -58,38 +66,36 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingState.style.display = 'block';
             emptyState.style.display = 'none';
 
-            // Get posts from Firestore (ordered by date, newest first)
-            const postsSnapshot = await db.collection('blog-posts')
-                .orderBy('createdAt', 'desc')
-                .get();
+            // Remove old cards
+            postsGrid.querySelectorAll('.post-card').forEach(c => c.remove());
 
-            // Clear existing posts (except loading/empty states)
-            const existingCards = postsGrid.querySelectorAll('.post-card');
-            existingCards.forEach(card => card.remove());
+            const q = query(collection(db, 'blog-posts'), orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
 
-            if (postsSnapshot.empty) {
-                // No posts found
+            if (snapshot.empty) {
                 loadingState.style.display = 'none';
                 emptyState.style.display = 'block';
                 return;
             }
 
-            // Hide loading state
             loadingState.style.display = 'none';
 
-            // Render each post
-            postsSnapshot.forEach((doc, index) => {
-                const post = doc.data();
-                const postId = doc.id;
+            let index = 0;
+            snapshot.forEach((docSnap) => {
+                const post = docSnap.data();
+                const postId = docSnap.id;
 
-                // Skip drafts for non-authors
-                if (!post.published && !currentUser) {
-                    return;
-                }
+                // Skip drafts for public visitors
+                if (!post.published && !currentUser) return;
 
-                const postCard = createPostCard(post, postId, index);
-                postsGrid.appendChild(postCard);
+                postsGrid.appendChild(createPostCard(post, postId, index));
+                index++;
             });
+
+            // If all posts were drafts and user isn't logged in
+            if (postsGrid.querySelectorAll('.post-card').length === 0) {
+                emptyState.style.display = 'block';
+            }
 
         } catch (error) {
             console.error('❌ Error loading posts:', error);
@@ -101,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // CREATE POST CARD ELEMENT
+    // CREATE POST CARD
     // ============================================
 
     function createPostCard(post, postId, index) {
@@ -109,43 +115,31 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'post-card';
         card.style.setProperty('--delay', `${index * 0.1}s`);
 
-        // Format date
-        const postDate = post.createdAt ?
-            new Date(post.createdAt.toDate()).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            }) : 'Draft';
+        const postDate = post.createdAt
+            ? new Date(post.createdAt.toDate()).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'short', day: 'numeric'
+            })
+            : 'Draft';
 
-        // Build HTML
         let html = '';
 
-        // Draft badge (author only)
         if (!post.published && currentUser) {
             html += `<div class="post-draft-badge">DRAFT</div>`;
         }
 
-        // Meta (date)
         html += `
             <div class="post-meta">
                 <span class="post-meta-date">${postDate}</span>
             </div>
+            <h2 class="post-title">${escapeHtml(post.title)}</h2>
+            <p class="post-excerpt">${escapeHtml(post.excerpt)}</p>
+            <a href="blog-post.html?id=${postId}" class="read-more">READ MORE</a>
         `;
 
-        // Title
-        html += `<h2 class="post-title">${escapeHtml(post.title)}</h2>`;
-
-        // Excerpt
-        html += `<p class="post-excerpt">${escapeHtml(post.excerpt)}</p>`;
-
-        // Read more link
-        html += `<a href="blog-post.html?id=${postId}" class="read-more">READ MORE</a>`;
-
-        // Author actions (edit/delete) - only if logged in
         if (currentUser) {
             html += `
                 <div class="post-actions">
-                    <button class="post-action-btn edit" data-id="${postId}">EDIT</button>
+                    <button class="post-action-btn edit"   data-id="${postId}">EDIT</button>
                     <button class="post-action-btn delete" data-id="${postId}">DELETE</button>
                 </div>
             `;
@@ -153,17 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.innerHTML = html;
 
-        // Attach event listeners if author
         if (currentUser) {
-            const editBtn = card.querySelector('.edit');
-            const deleteBtn = card.querySelector('.delete');
-
-            editBtn.addEventListener('click', (e) => {
+            card.querySelector('.edit').addEventListener('click', (e) => {
                 e.stopPropagation();
                 openEditModal(postId, post);
             });
-
-            deleteBtn.addEventListener('click', (e) => {
+            card.querySelector('.delete').addEventListener('click', (e) => {
                 e.stopPropagation();
                 deletePost(postId);
             });
@@ -173,33 +162,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // NEW POST BUTTON
+    // NEW POST MODAL
     // ============================================
 
     newPostBtn.addEventListener('click', () => {
-        openNewPostModal();
-    });
-
-    function openNewPostModal() {
         editingPostId = null;
         modalTitle.textContent = 'CREATE NEW POST';
         postForm.reset();
         postIdField.value = '';
         updateCharCounts();
         postModal.style.display = 'flex';
-    }
+    });
 
     // ============================================
-    // EDIT POST
+    // EDIT POST MODAL
     // ============================================
 
     function openEditModal(postId, post) {
         editingPostId = postId;
         modalTitle.textContent = 'EDIT POST';
         postIdField.value = postId;
-        postTitle.value = post.title || '';
-        postExcerpt.value = post.excerpt || '';
-        postContent.value = post.content || '';
+        postTitleField.value = post.title || '';
+        postExcerptField.value = post.excerpt || '';
+        postContentField.value = post.content || '';
         postPublished.checked = post.published || false;
         updateCharCounts();
         postModal.style.display = 'flex';
@@ -210,14 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
 
     async function deletePost(postId) {
-        if (!confirm('Are you sure you want to delete this post? This cannot be undone.')) {
-            return;
-        }
+        if (!confirm('Are you sure you want to delete this post? This cannot be undone.')) return;
 
         try {
-            await db.collection('blog-posts').doc(postId).delete();
+            await deleteDoc(doc(db, 'blog-posts', postId));
             console.log('✅ Post deleted:', postId);
-            loadPosts(); // Reload posts
+            loadPosts();
         } catch (error) {
             console.error('❌ Error deleting post:', error);
             alert('Failed to delete post. Please try again.');
@@ -236,35 +219,30 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Show loading state
         saveBtn.classList.add('loading');
         btnText.style.display = 'none';
         btnLoading.style.display = 'inline';
 
         try {
             const postData = {
-                title: postTitle.value.trim(),
-                excerpt: postExcerpt.value.trim(),
-                content: postContent.value.trim(),
+                title: postTitleField.value.trim(),
+                excerpt: postExcerptField.value.trim(),
+                content: postContentField.value.trim(),
                 published: postPublished.checked,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                updatedAt: serverTimestamp()
             };
 
             if (editingPostId) {
-                // UPDATE existing post
-                await db.collection('blog-posts').doc(editingPostId).update(postData);
+                await updateDoc(doc(db, 'blog-posts', editingPostId), postData);
                 console.log('✅ Post updated:', editingPostId);
             } else {
-                // CREATE new post
-                postData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                postData.createdAt = serverTimestamp();
                 postData.authorId = currentUser.uid;
                 postData.authorEmail = currentUser.email;
-
-                const docRef = await db.collection('blog-posts').add(postData);
+                const docRef = await addDoc(collection(db, 'blog-posts'), postData);
                 console.log('✅ Post created:', docRef.id);
             }
 
-            // Close modal and reload
             closeModal();
             loadPosts();
 
@@ -272,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('❌ Error saving post:', error);
             alert('Failed to save post. Please try again.');
         } finally {
-            // Reset button state
             saveBtn.classList.remove('loading');
             btnText.style.display = 'inline';
             btnLoading.style.display = 'none';
@@ -297,53 +274,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // CHARACTER COUNTERS
     // ============================================
 
-    postTitle.addEventListener('input', () => {
-        titleCount.textContent = `${postTitle.value.length} / 200`;
+    postTitleField.addEventListener('input', () => {
+        titleCount.textContent = `${postTitleField.value.length} / 200`;
     });
 
-    postExcerpt.addEventListener('input', () => {
-        excerptCount.textContent = `${postExcerpt.value.length} / 300`;
+    postExcerptField.addEventListener('input', () => {
+        excerptCount.textContent = `${postExcerptField.value.length} / 300`;
     });
 
     function updateCharCounts() {
-        titleCount.textContent = `${postTitle.value.length} / 200`;
-        excerptCount.textContent = `${postExcerpt.value.length} / 300`;
+        titleCount.textContent = `${postTitleField.value.length} / 200`;
+        excerptCount.textContent = `${postExcerptField.value.length} / 300`;
     }
 
     // ============================================
-    // MARKDOWN TOOLBAR BUTTONS
+    // MARKDOWN TOOLBAR
     // ============================================
 
-    const toolbarBtns = document.querySelectorAll('.toolbar-btn');
-    toolbarBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const markdown = btn.getAttribute('data-md');
-            insertMarkdown(markdown);
-        });
+    document.querySelectorAll('.toolbar-btn').forEach(btn => {
+        btn.addEventListener('click', () => insertMarkdown(btn.getAttribute('data-md')));
     });
 
     function insertMarkdown(syntax) {
-        const start = postContent.selectionStart;
-        const end = postContent.selectionEnd;
-        const text = postContent.value;
+        const start = postContentField.selectionStart;
+        const end = postContentField.selectionEnd;
+        const text = postContentField.value;
         const selectedText = text.substring(start, end);
 
         let newText;
-        if (syntax === '**bold**') {
-            newText = `**${selectedText || 'text'}**`;
-        } else if (syntax === '*italic*') {
-            newText = `*${selectedText || 'text'}*`;
-        } else if (syntax === '[link](url)') {
-            newText = `[${selectedText || 'link text'}](url)`;
-        }
+        if (syntax === '**bold**') newText = `**${selectedText || 'text'}**`;
+        else if (syntax === '*italic*') newText = `*${selectedText || 'text'}*`;
+        else if (syntax === '[link](url)') newText = `[${selectedText || 'link text'}](url)`;
 
-        postContent.value = text.substring(0, start) + newText + text.substring(end);
-        postContent.focus();
-        postContent.setSelectionRange(start + newText.length, start + newText.length);
+        postContentField.value = text.substring(0, start) + newText + text.substring(end);
+        postContentField.focus();
+        postContentField.setSelectionRange(start + newText.length, start + newText.length);
     }
 
     // ============================================
-    // UTILITY: ESCAPE HTML
+    // UTILITY
     // ============================================
 
     function escapeHtml(text) {
