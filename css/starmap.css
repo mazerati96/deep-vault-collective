@@ -41,6 +41,47 @@ body {
 }
 
 /* ============================================
+   EXPLORE HINT LABEL (vertical, left margin)
+   ============================================ */
+
+.map-explore-hint {
+    position: fixed;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    z-index: 30;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    /* Box styling */
+    background: rgba(0, 10, 20, 0.55);
+    border: 1px solid rgba(0, 217, 255, 0.35);
+    border-radius: 6px;
+    padding: 20px 8px;
+    /* Text styling */
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: rgba(0, 217, 255, 0.7);
+    text-transform: uppercase;
+    white-space: nowrap;
+    /* Subtle glow */
+    box-shadow: 0 0 12px rgba(0, 217, 255, 0.1), inset 0 0 8px rgba(0, 217, 255, 0.05);
+    /* Fade in after a short delay so it doesn't compete with the map */
+    opacity: 0;
+    animation: hintFadeIn 1s ease-out 2s forwards;
+    pointer-events: none; /* non-interactive */
+}
+
+@keyframes hintFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ============================================
    STAR MAP BACKGROUND
    ============================================ */
 
@@ -48,19 +89,25 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
+    /* Base centering — JS overrides this with drag offsets */
     transform: translate(-50%, -50%);
-    width: auto;
-    height: auto;
+    /* Give it explicit dimensions so centering is predictable at every viewport size */
+    width: max-content;
+    height: max-content;
     opacity: 0; /* Start invisible for fade-in */
 }
 
     .starmap-background img {
+        /* Scale by height so the map always fills vertically.
+           On very wide screens we bump to a larger minimum so
+           the image never appears smaller / off-centre. */
+        height: 120vh;
+        min-width: 100vw; /* ← prevents the image from being narrower than the viewport */
         width: auto;
-        height: 120vh; /* Shows full height + extra room */
-        max-width: none; /* Allows image to be wider than viewport */
-        object-fit: contain; /* Shows ENTIRE image */
+        max-width: none;
+        object-fit: contain;
         object-position: center;
-        display: block; /* Prevents weird inline spacing */
+        display: block;
     }
 
     /* Fade in animation - triggered by JS */
@@ -89,7 +136,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: 5;
-    pointer-events: none; /* Let background handle dragging */
+    pointer-events: none;
 }
 
 .planet {
@@ -97,16 +144,15 @@ body {
     cursor: pointer;
     transform: translate(-50%, -50%);
     transition: all 0.3s ease;
-    pointer-events: all; /* But planets are clickable */
+    pointer-events: all;
 }
 
-/* FIX: Give hotspot a visible default state so dots show on mobile (no hover available) */
 .planet-hotspot {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(0, 217, 255, 0.35) 0%, transparent 70%);
-    border: 2px solid rgba(0, 217, 255, 0.5); /* was 0 alpha — now visible */
+    border: 2px solid rgba(0, 217, 255, 0.5);
     transition: all 0.4s ease;
     animation: pulseGlow 3s ease-in-out infinite;
 }
@@ -183,7 +229,7 @@ body {
     pointer-events: none;
 }
 
-/* Hover Effects (desktop only — mobile uses tap) */
+/* Hover Effects */
 .planet:hover .planet-hotspot {
     background: radial-gradient(circle, rgba(0, 217, 255, 0.5) 0%, transparent 70%);
     border-color: rgba(0, 217, 255, 0.8);
@@ -213,7 +259,13 @@ body {
         top: 20px;
     }
 
-    /* FIX: Boost visibility on mobile since there's no hover state */
+    .map-explore-hint {
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        left: 8px;
+        padding: 14px 6px;
+    }
+
     .planet-hotspot {
         width: 40px;
         height: 40px;
@@ -229,5 +281,18 @@ body {
 
     .planet:hover .planet-label {
         top: 50px;
+    }
+}
+
+/* Large screens — ensure the image never feels undersized or off-axis */
+@media (min-width: 1600px) {
+    .starmap-background img {
+        height: 130vh;
+    }
+}
+
+@media (min-width: 2200px) {
+    .starmap-background img {
+        height: 140vh;
     }
 }

@@ -1,0 +1,343 @@
+/* ============================================
+   PROGRESS BAR — Shared stylesheet
+   ============================================ */
+
+/* ── Loading skeleton (shown while Firestore fetches) ── */
+
+.progress-skeleton {
+    height: 3px;
+    margin-top: 28px;
+    border-radius: 2px;
+    background: linear-gradient( 90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75% );
+    background-size: 200% 100%;
+    animation: progressShimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes progressShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ── Wrapper ── */
+
+.book-progress {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 140, 42, 0.1);
+}
+
+/* Ink-card variant border */
+.ink-card .book-progress {
+    border-top-color: rgba(232, 69, 69, 0.1);
+}
+
+/* ── Meta row (label + percent / edit button) ── */
+
+.progress-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+
+.progress-stage {
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    color: rgba(255, 140, 42, 0.8);
+    text-transform: uppercase;
+    transition: color 0.4s ease;
+}
+
+.ink-card .progress-stage {
+    color: rgba(232, 69, 69, 0.8);
+}
+
+.progress-stage.is-complete {
+    color: rgba(74, 222, 128, 0.9);
+    letter-spacing: 3px;
+}
+
+.progress-percent {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.35);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Track + fill ── */
+
+.progress-track {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%; /* Animated by JS */
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(255, 140, 42, 0.55), #ff8c2a);
+    box-shadow: 0 0 8px rgba(255, 140, 42, 0.35);
+    transition: width 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ink-card .progress-fill {
+    background: linear-gradient(90deg, rgba(232, 69, 69, 0.55), #e84545);
+    box-shadow: 0 0 8px rgba(232, 69, 69, 0.35);
+}
+
+.progress-fill.is-complete {
+    background: linear-gradient(90deg, #4ade80, #22d3ee);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+}
+
+/* ── Author-only: EDIT button ── */
+
+.progress-edit-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 140, 42, 0.22);
+    color: rgba(255, 140, 42, 0.45);
+    font-family: inherit;
+    font-size: 0.5rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+    .progress-edit-btn:hover {
+        border-color: rgba(255, 140, 42, 0.55);
+        color: #ff8c2a;
+    }
+
+.ink-card .progress-edit-btn {
+    border-color: rgba(232, 69, 69, 0.22);
+    color: rgba(232, 69, 69, 0.45);
+}
+
+    .ink-card .progress-edit-btn:hover {
+        border-color: rgba(232, 69, 69, 0.55);
+        color: #e84545;
+    }
+
+/* ── Author sub-label (shows % when edit btn occupies right slot) ── */
+
+.progress-author-sub {
+    font-size: 0.52rem;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 8px;
+}
+
+/* ── Edit panel ── */
+
+.progress-edit-panel {
+    margin-top: 18px;
+    padding: 22px 22px 18px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 140, 42, 0.1);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: editPanelIn 0.2s ease-out both;
+}
+
+.ink-card .progress-edit-panel {
+    border-color: rgba(232, 69, 69, 0.1);
+}
+
+@keyframes editPanelIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Field */
+.progress-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+    .progress-field label {
+        font-size: 0.52rem;
+        letter-spacing: 4px;
+        color: rgba(255, 140, 42, 0.5);
+        text-transform: uppercase;
+    }
+
+.ink-card .progress-field label {
+    color: rgba(232, 69, 69, 0.5);
+}
+
+.progress-field input[type="text"],
+.progress-field input[type="number"] {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 140, 42, 0.14);
+    color: rgba(255, 255, 255, 0.8);
+    font-family: inherit;
+    font-size: 0.88rem;
+    letter-spacing: 1px;
+    padding: 9px 13px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+    border-radius: 1px;
+}
+
+.progress-field input[type="text"] {
+    width: 100%;
+}
+
+.progress-field input[type="number"] {
+    width: 90px;
+}
+
+.progress-field input:focus {
+    border-color: rgba(255, 140, 42, 0.42);
+}
+
+.ink-card .progress-field input {
+    border-color: rgba(232, 69, 69, 0.14);
+}
+
+    .ink-card .progress-field input:focus {
+        border-color: rgba(232, 69, 69, 0.42);
+    }
+
+.progress-field.is-dimmed {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Complete toggle */
+.progress-complete-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .progress-complete-row input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        accent-color: #ff8c2a;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+.ink-card .progress-complete-row input[type="checkbox"] {
+    accent-color: #e84545;
+}
+
+.progress-complete-row label {
+    font-size: 0.57rem;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Actions row */
+.progress-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+
+.progress-save-btn,
+.progress-cancel-btn {
+    font-family: inherit;
+    font-size: 0.58rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.2s ease;
+}
+
+.progress-save-btn {
+    background: rgba(255, 140, 42, 0.12);
+    border: 1px solid rgba(255, 140, 42, 0.35);
+    color: #ff8c2a;
+}
+
+    .progress-save-btn:hover:not(:disabled) {
+        background: rgba(255, 140, 42, 0.22);
+    }
+
+    .progress-save-btn:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+.ink-card .progress-save-btn {
+    background: rgba(232, 69, 69, 0.12);
+    border-color: rgba(232, 69, 69, 0.35);
+    color: #e84545;
+}
+
+    .ink-card .progress-save-btn:hover:not(:disabled) {
+        background: rgba(232, 69, 69, 0.22);
+    }
+
+.progress-cancel-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+}
+
+    .progress-cancel-btn:hover {
+        color: rgba(255, 255, 255, 0.6);
+        border-color: rgba(255, 255, 255, 0.25);
+    }
+
+/* Save confirmation flash */
+.progress-saved-msg {
+    font-size: 0.52rem;
+    letter-spacing: 3px;
+    color: #4ade80;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+    .progress-saved-msg.visible {
+        opacity: 1;
+    }
+
+/* ── Responsive ── */
+
+@media (max-width: 480px) {
+    .progress-edit-panel {
+        padding: 18px 16px 14px;
+    }
+}
+
+/* ── Status badge variants (driven by progress-bar.js) ── */
+/* These extend the .status-badge base class in astraea.css */
+
+.status-badge.is-complete {
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.4);
+    color: #4ade80;
+}
