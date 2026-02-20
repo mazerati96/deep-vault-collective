@@ -304,3 +304,55 @@ body {
             font-size: 1.3rem;
         }
 }
+
+/* ============================================
+   PHASE 1 Additions to blog-post.css
+   Add these to your existing blog-post.css
+   ============================================ */
+
+/* Featured Image */
+.featured-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    margin-bottom: 40px;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+/* Tags in post header */
+.post-tags-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.post-tag-item {
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    color: rgba(0, 217, 255, 0.8);
+    font-weight: 600;
+}
+
+/* Ensure Quill-generated content styles nicely */
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 30px 0;
+    border: 1px solid rgba(0, 217, 255, 0.15);
+}
+
+.post-content ol,
+.post-content ul {
+    margin: 24px 0;
+    padding-left: 40px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.post-content li {
+    margin-bottom: 12px;
+    line-height: 1.8;
+}

@@ -615,3 +615,435 @@ body {
         width: 100%;
     }
 }
+/* ============================================
+   PHASE 1 Enhanced Blog CSS
+   Adds: Search bar, Category pills, Image upload UI, Tags, Quill editor styles
+   ============================================ */
+
+/* ============================================
+   SEARCH BAR
+   ============================================ */
+
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 30px auto 0;
+}
+
+.search-input {
+    width: 100%;
+    padding: 16px 50px 16px 20px;
+    font-size: 0.95rem;
+    background: rgba(0, 217, 255, 0.04);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    color: #fff;
+    letter-spacing: 0.5px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+    .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .search-input:focus {
+        border-color: rgba(0, 217, 255, 0.6);
+        background: rgba(0, 217, 255, 0.07);
+        box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+    }
+
+.search-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ============================================
+   CATEGORY PILLS
+   ============================================ */
+
+.category-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.pill-btn {
+    padding: 8px 20px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    .pill-btn:hover {
+        background: rgba(0, 217, 255, 0.1);
+        border-color: rgba(0, 217, 255, 0.4);
+        color: #00d9ff;
+    }
+
+    .pill-btn.active {
+        background: linear-gradient(135deg, #00d9ff 0%, #4EBBD2 100%);
+        border-color: #00d9ff;
+        color: #000;
+        font-weight: 600;
+    }
+
+/* ============================================
+   POST CARD ENHANCEMENTS (Image + Tags)
+   ============================================ */
+
+.post-card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(0, 217, 255, 0.2);
+}
+
+    .post-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+.post-card:hover .post-card-image img {
+    transform: scale(1.05);
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.post-tag {
+    padding: 4px 12px;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    color: rgba(0, 217, 255, 0.8);
+}
+
+/* ============================================
+   ENHANCED MODAL (Larger for Quill editor)
+   ============================================ */
+
+.modal-enhanced {
+    max-width: 900px;
+}
+
+/* ============================================
+   IMAGE UPLOAD AREA
+   ============================================ */
+
+.image-upload-area {
+    border: 2px dashed rgba(0, 217, 255, 0.3);
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .image-upload-area:hover,
+    .image-upload-area.drag-over {
+        border-color: rgba(0, 217, 255, 0.6);
+        background: rgba(0, 217, 255, 0.05);
+    }
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    opacity: 0.4;
+}
+
+.upload-placeholder p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+.upload-placeholder small {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.75rem;
+}
+
+.image-preview-container {
+    position: relative;
+}
+
+.preview-img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.remove-image-btn {
+    margin-top: 10px;
+    padding: 8px 20px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    background: transparent;
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    color: rgba(255, 107, 107, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    .remove-image-btn:hover {
+        background: rgba(255, 107, 107, 0.1);
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+    }
+
+.upload-progress {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00d9ff, #4EBBD2);
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.progress-text {
+    font-size: 0.75rem;
+    color: rgba(0, 217, 255, 0.8);
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   TAGS INPUT
+   ============================================ */
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    min-height: 45px;
+    padding: 10px;
+    background: rgba(0, 217, 255, 0.04);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.tags-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #00d9ff 0%, #4EBBD2 100%);
+    color: #000;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.tag-remove {
+    background: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.9rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+    transition: color 0.2s ease;
+}
+
+    .tag-remove:hover {
+        color: #000;
+    }
+
+.tags-input {
+    flex: 1;
+    min-width: 150px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+    .tags-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+/* ============================================
+   QUILL EDITOR CUSTOM STYLING
+   ============================================ */
+
+.quill-container {
+    background: rgba(0, 217, 255, 0.04);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+/* Quill toolbar */
+.ql-toolbar.ql-snow {
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.ql-snow .ql-stroke {
+    stroke: rgba(0, 217, 255, 0.6);
+}
+
+.ql-snow .ql-fill {
+    fill: rgba(0, 217, 255, 0.6);
+}
+
+.ql-snow .ql-picker-label {
+    color: rgba(0, 217, 255, 0.8);
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover,
+.ql-toolbar.ql-snow button:hover .ql-stroke,
+.ql-toolbar.ql-snow button:hover .ql-fill {
+    stroke: #00d9ff;
+    fill: #00d9ff;
+}
+
+.ql-toolbar.ql-snow button.ql-active .ql-stroke,
+.ql-toolbar.ql-snow button.ql-active .ql-fill {
+    stroke: #4EBBD2;
+    fill: #4EBBD2;
+}
+
+/* Quill editor content area */
+.ql-container.ql-snow {
+    border: none;
+    min-height: 400px;
+    font-size: 1rem;
+}
+
+.ql-editor {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.8;
+}
+
+    .ql-editor.ql-blank::before {
+        color: rgba(255, 255, 255, 0.3);
+        font-style: normal;
+    }
+
+    .ql-editor h2 {
+        color: #00d9ff;
+        font-size: 1.8rem;
+        font-weight: 400;
+        letter-spacing: 2px;
+        margin-top: 30px;
+        margin-bottom: 16px;
+    }
+
+    .ql-editor h3 {
+        color: rgba(0, 217, 255, 0.8);
+        font-size: 1.4rem;
+        font-weight: 400;
+        letter-spacing: 1px;
+        margin-top: 24px;
+        margin-bottom: 12px;
+    }
+
+    .ql-editor strong {
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 600;
+    }
+
+    .ql-editor em {
+        color: rgba(0, 217, 255, 0.9);
+    }
+
+    .ql-editor a {
+        color: #00d9ff;
+        border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+        text-decoration: none;
+    }
+
+    .ql-editor blockquote {
+        border-left: 3px solid #00d9ff;
+        padding-left: 20px;
+        margin: 20px 0;
+        color: rgba(255, 255, 255, 0.6);
+        font-style: italic;
+    }
+
+    .ql-editor code {
+        background: rgba(0, 217, 255, 0.08);
+        padding: 2px 6px;
+        color: #4EBBD2;
+    }
+
+    .ql-editor pre {
+        background: rgba(0, 217, 255, 0.05);
+        border: 1px solid rgba(0, 217, 255, 0.15);
+        padding: 16px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .search-container {
+        margin: 20px 0;
+    }
+
+    .category-pills {
+        gap: 8px;
+        margin: 20px 0;
+    }
+
+    .pill-btn {
+        font-size: 0.7rem;
+        padding: 6px 14px;
+    }
+
+    .modal-enhanced {
+        max-width: 95%;
+        padding: 30px 20px;
+    }
+
+    .ql-container.ql-snow {
+        min-height: 300px;
+    }
+
+    .tags-container {
+        min-height: auto;
+    }
+}

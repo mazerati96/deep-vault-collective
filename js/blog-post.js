@@ -1,6 +1,7 @@
-// ============================================================
-//  Individual Blog Post Page — ES Module, modular Firebase v10
-// ============================================================
+// ============================================
+//  PHASE 1 Enhanced Blog Post Display
+//  Renders rich HTML content + featured images + tags
+// ============================================
 
 import { auth } from "../auth/firebase-config.js";
 import { db }   from "../auth/firebase-config.js";
@@ -14,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const postTitleEl      = document.getElementById('postTitle');
     const postContentEl    = document.getElementById('postContent');
     const draftBadge       = document.getElementById('draftBadge');
+    
+    // PHASE 1: New elements
+    const featuredImageEl  = document.getElementById('featuredImage');
+    const tagsContainer    = document.getElementById('postTags');
 
     // Get post ID from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -76,9 +81,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!post.published) {
             draftBadge.style.display = 'inline-block';
         }
+        
+        // PHASE 1: Featured Image
+        if (post.featuredImage && featuredImageEl) {
+            featuredImageEl.src = post.featuredImage;
+            featuredImageEl.style.display = 'block';
+        }
+        
+        // PHASE 1: Tags
+        if (post.tags && post.tags.length > 0 && tagsContainer) {
+            tagsContainer.innerHTML = '';
+            post.tags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'post-tag-item';
+                tagEl.textContent = tag;
+                tagsContainer.appendChild(tagEl);
+            });
+            tagsContainer.style.display = 'flex';
+        }
 
-        // Render markdown content
-        postContentEl.innerHTML = renderMarkdown(post.content);
+        // PHASE 1: Render rich HTML content (from Quill)
+        // No need for markdown parsing - Quill saves as HTML
+        postContentEl.innerHTML = sanitizeHtml(post.content);
 
         // Show post
         loadingContainer.style.display = 'none';
@@ -86,48 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // SIMPLE MARKDOWN RENDERER
+    // BASIC HTML SANITIZATION
     // ============================================
-
-    function renderMarkdown(text) {
-        if (!text) return '';
-
-        let html = escapeHtml(text);
-
-        // Headers
-        html = html.replace(/^## (.+)$/gm,  '<h2>$1</h2>');
-        html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-
-        // Bold & italic
-        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*(.+?)\*/g,     '<em>$1</em>');
-
-        // Links
-        html = html.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-        // Blockquotes
-        html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
-
-        // Horizontal rules
-        html = html.replace(/^---$/gm, '<hr>');
-
-        // Paragraphs (double newline)
-        html = html.split('\n\n').map(para => {
-            para = para.trim();
-            if (!para) return '';
-            if (para.startsWith('<h') || para.startsWith('<blockquote') || para.startsWith('<hr')) return para;
-            return `<p>${para}</p>`;
-        }).join('\n');
-
-        // Single line breaks within paragraphs
-        html = html.replace(/(?<!>)\n(?!<)/g, '<br>');
-
-        return html;
-    }
-
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+    
+    function sanitizeHtml(html) {
+        // Create a temporary div to parse HTML
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        
+        // Allow only safe tags (Quill generates these)
+        const allowedTags = ['p', 'br', 'strong', 'em', 'u', 's', 'h2', 'h3', 
+                             'blockquote', 'ol', 'ul', 'li', 'a', 'code', 'pre', 'img'];
+        
+        // Remove script tags and dangerous attributes
+        const scripts = temp.querySelectorAll('script, iframe, object, embed');
+        scripts.forEach(el => el.remove());
+        
+        return temp.innerHTML;
     }
 });

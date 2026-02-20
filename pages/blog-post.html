@@ -43,18 +43,25 @@
         <!-- Back Button -->
         <a href="blog.html" class="back-link">← BACK TO BLOG</a>
 
+        <!-- PHASE 1: Featured Image -->
+        <img id="featuredImage" class="featured-image" alt="" style="display: none;" />
+
         <!-- Post Header -->
         <header class="post-header">
             <div class="post-meta">
                 <span class="post-date" id="postDate"></span>
                 <span class="post-draft-badge" id="draftBadge" style="display: none;">DRAFT</span>
             </div>
+
+            <!-- PHASE 1: Tags -->
+            <div class="post-tags-header" id="postTags" style="display: none;"></div>
+
             <h1 class="post-title" id="postTitle"></h1>
         </header>
 
-        <!-- Post Content -->
+        <!-- Post Content (PHASE 1: Now renders rich HTML from Quill) -->
         <div class="post-content" id="postContent">
-            <!-- Markdown content will be rendered here -->
+            <!-- Rich HTML content will be rendered here -->
         </div>
 
         <!-- Post Footer -->
