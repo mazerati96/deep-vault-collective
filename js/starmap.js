@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         edereb: { name: 'Edereb', link: 'edereb.html' },
         omicros: { name: 'Omicros', description: 'Coming soon...', link: 'worlds.html' },
         astraea: { name: 'Astraea', link: 'astraea.html' },
-        rexus: { name: 'Rexus', description: 'Coming soon...', link: 'worlds.html' },
+        rexus: { name: 'Rexus', link: 'rexus.html' },
         legatius: { name: 'Legatius', link: 'legatius.html' }
     };
 
