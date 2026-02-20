@@ -67,7 +67,7 @@ body {
     box-shadow: 0 0 12px rgba(0, 217, 255, 0.1), inset 0 0 8px rgba(0, 217, 255, 0.05);
     /* Fade in after a short delay so it doesn't compete with the map */
     opacity: 0;
-    animation: hintFadeIn 1s ease-out 2s forwards;
+    animation: hintFadeIn 0.5s ease-out 1s forwards;
     pointer-events: none; /* non-interactive */
 }
 
