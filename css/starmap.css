@@ -249,7 +249,7 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE - MOBILE FIX
    ============================================ */
 
 @media (max-width: 768px) {
@@ -266,12 +266,13 @@ body {
         padding: 14px 6px;
     }
 
+    /* CRITICAL FIX: Keep hotspot size the same to prevent position shifts!
+       Just make them brighter/more visible instead of smaller */
     .planet-hotspot {
-        width: 40px;
-        height: 40px;
-        background: radial-gradient(circle, rgba(0, 217, 255, 0.45) 0%, transparent 70%);
-        border: 2px solid rgba(0, 217, 255, 0.7);
-        box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
+        /* DON'T change width/height - this keeps dots in correct positions! */
+        background: radial-gradient(circle, rgba(0, 217, 255, 0.5) 0%, transparent 70%);
+        border: 2.5px solid rgba(0, 217, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
     }
 
     .planet-label {
