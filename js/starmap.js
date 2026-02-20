@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         omicros: { name: 'Omicros', description: 'Coming soon...', link: 'worlds.html' },
         astraea: { name: 'Astraea', link: 'astraea.html' },
         rexus: { name: 'Rexus', description: 'Coming soon...', link: 'worlds.html' },
-        legatius: { name: 'Legatius', description: 'Coming soon...', link: 'worlds.html' }
+        legatius: { name: 'Legatius', link: 'legatius.html' }
     };
 
     // Helper: trigger page transition and navigate
