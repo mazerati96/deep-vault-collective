@@ -1,8 +1,7 @@
-
-// ============================================================
-//  PHASE 1 Enhanced Blog — Rich Editor + Images + Tags + Search
-//  Preserves your existing Firebase v10 modular structure
-// ============================================================
+// ============================================
+//  PHASE 1 Blog (NO IMAGE UPLOADS) - CLEANED
+//  Features: Rich text editor, Tags, Search, Category filters
+// ============================================
 
 import { auth } from "../auth/firebase-config.js";
 import { db } from "../auth/firebase-config.js";
@@ -20,18 +19,12 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// PHASE 1: Add Firebase Storage
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-const storage = getStorage();
-
 let currentUser = null;
 let editingPostId = null;
-let quillEditor = null; // PHASE 1: Quill instance
-let selectedTags = []; // PHASE 1: Tags array
-let allPosts = []; // PHASE 1: For search/filter
-let currentFilter = 'all'; // PHASE 1: Active category filter
+let quillEditor = null;
+let selectedTags = [];
+let allPosts = [];
+let currentFilter = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
     const postsGrid = document.getElementById('postsGrid');
@@ -60,30 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleCount = document.getElementById('titleCount');
     const excerptCount = document.getElementById('excerptCount');
 
-    // PHASE 1: Search & Filter
+    // Search & Filter
     const searchInput = document.getElementById('searchInput');
     const categoryPills = document.getElementById('categoryPills');
 
-    // PHASE 1: Image upload
-    const imageUploadArea = document.getElementById('imageUploadArea');
-    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const imageInput = document.getElementById('imageInput');
-    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    const imagePreview = document.getElementById('imagePreview');
-    const removeImageBtn = document.getElementById('removeImageBtn');
-    const uploadProgress = document.getElementById('uploadProgress');
-    const progressFill = document.getElementById('progressFill');
-    const progressText = document.getElementById('progressText');
-    const featuredImageUrl = document.getElementById('featuredImageUrl');
-
-    // PHASE 1: Tags
+    // Tags
     const tagsInput = document.getElementById('tagsInput');
     const tagsDisplay = document.getElementById('tagsDisplay');
-    const tagSuggestions = document.getElementById('tagSuggestions');
     const tagsData = document.getElementById('tagsData');
 
     // ============================================
-    // PHASE 1: INITIALIZE QUILL EDITOR
+    // INITIALIZE QUILL EDITOR
     // ============================================
 
     function initQuillEditor() {
@@ -96,13 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
                     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['link', 'image'],
+                    ['link'],
                     ['clean']
                 ]
             }
         });
 
-        // Sync Quill content to hidden textarea
         quillEditor.on('text-change', () => {
             postContentField.value = quillEditor.root.innerHTML;
         });
@@ -114,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
-        newPostBtn.style.display = user ? 'inline-block' : 'none';
+        if (newPostBtn) newPostBtn.style.display = user ? 'inline-block' : 'none';
         loadPosts();
     });
 
@@ -127,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingState.style.display = 'block';
             emptyState.style.display = 'none';
 
-            // Remove old cards
             postsGrid.querySelectorAll('.post-card').forEach(c => c.remove());
 
             const q = query(collection(db, 'blog-posts'), orderBy('createdAt', 'desc'));
@@ -142,22 +120,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             loadingState.style.display = 'none';
 
-            // PHASE 1: Store all posts for filtering
             allPosts = [];
             snapshot.forEach((docSnap) => {
                 const post = docSnap.data();
                 const postId = docSnap.id;
 
-                // Skip drafts for public visitors
                 if (!post.published && !currentUser) return;
 
                 allPosts.push({ ...post, id: postId });
             });
 
-            // PHASE 1: Build category pills
             buildCategoryPills();
-
-            // PHASE 1: Initial render (all posts)
             renderFilteredPosts();
 
         } catch (error) {
@@ -169,11 +142,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // PHASE 1: BUILD CATEGORY PILLS
+    // BUILD CATEGORY PILLS
     // ============================================
 
     function buildCategoryPills() {
-        // Get unique tags from all posts
         const allTags = new Set();
         allPosts.forEach(post => {
             if (post.tags && Array.isArray(post.tags)) {
@@ -181,10 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Clear existing pills (except "All Posts")
-        categoryPills.querySelectorAll('.pill-btn:not(.active)').forEach(p => p.remove());
+        categoryPills.querySelectorAll('.pill-btn:not([data-category="all"])').forEach(p => p.remove());
 
-        // Add tag pills
         allTags.forEach(tag => {
             const pill = document.createElement('button');
             pill.className = 'pill-btn';
@@ -196,13 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // PHASE 1: FILTER BY CATEGORY
+    // FILTER BY CATEGORY
     // ============================================
 
     function filterByCategory(category) {
         currentFilter = category;
 
-        // Update active pill
         categoryPills.querySelectorAll('.pill-btn').forEach(p => {
             p.classList.toggle('active', 
                 (category === 'all' && p.dataset.category === 'all') ||
@@ -214,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // PHASE 1: SEARCH FUNCTIONALITY
+    // SEARCH FUNCTIONALITY
     // ============================================
 
     searchInput.addEventListener('input', (e) => {
@@ -222,24 +191,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============================================
-    // PHASE 1: RENDER FILTERED POSTS
+    // RENDER FILTERED POSTS
     // ============================================
 
     function renderFilteredPosts(searchTerm = '') {
-        // Clear grid
         postsGrid.querySelectorAll('.post-card').forEach(c => c.remove());
 
-        // Filter posts
         let filtered = allPosts;
 
-        // Filter by category
         if (currentFilter !== 'all') {
             filtered = filtered.filter(post => 
                 post.tags && post.tags.includes(currentFilter)
             );
         }
 
-        // Filter by search term
         if (searchTerm) {
             const term = searchTerm.toLowerCase();
             filtered = filtered.filter(post => {
@@ -253,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Show empty state if no results
         if (filtered.length === 0) {
             emptyState.style.display = 'block';
             emptyMessage.textContent = searchTerm 
@@ -264,14 +228,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         emptyState.style.display = 'none';
 
-        // Render filtered posts
         filtered.forEach((post, index) => {
             postsGrid.appendChild(createPostCard(post, post.id, index));
         });
     }
 
     // ============================================
-    // CREATE POST CARD (Enhanced with image + tags)
+    // CREATE POST CARD
     // ============================================
 
     function createPostCard(post, postId, index) {
@@ -287,13 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let html = '';
 
-        // PHASE 1: Featured Image
-        if (post.featuredImage) {
-            html += `<div class="post-card-image">
-                <img src="${post.featuredImage}" alt="${escapeHtml(post.title)}" loading="lazy" />
-            </div>`;
-        }
-
         if (!post.published && currentUser) {
             html += `<div class="post-draft-badge">DRAFT</div>`;
         }
@@ -304,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        // PHASE 1: Tags display
         if (post.tags && post.tags.length > 0) {
             html += `<div class="post-tags">`;
             post.tags.forEach(tag => {
@@ -322,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentUser) {
             html += `
                 <div class="post-actions">
-                    <button class="post-action-btn edit"   data-id="${postId}">EDIT</button>
+                    <button class="post-action-btn edit" data-id="${postId}">EDIT</button>
                     <button class="post-action-btn delete" data-id="${postId}">DELETE</button>
                 </div>
             `;
@@ -356,14 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedTags = [];
         updateTagsDisplay();
         
-        // Initialize Quill if not already done
         if (!quillEditor) initQuillEditor();
         quillEditor.setContents([]);
-        
-        // Clear image
-        featuredImageUrl.value = '';
-        imagePreviewContainer.style.display = 'none';
-        uploadPlaceholder.style.display = 'block';
         
         updateCharCounts();
         postModal.style.display = 'flex';
@@ -393,28 +342,13 @@ document.addEventListener('DOMContentLoaded', () => {
             postExcerptField.value = post.excerpt || '';
             postPublished.checked = post.published || false;
             
-            // Initialize Quill if not done
             if (!quillEditor) initQuillEditor();
             
-            // Load content into Quill
             quillEditor.root.innerHTML = post.content || '';
             postContentField.value = post.content || '';
             
-            // Load tags
             selectedTags = post.tags || [];
             updateTagsDisplay();
-            
-            // Load image
-            if (post.featuredImage) {
-                featuredImageUrl.value = post.featuredImage;
-                imagePreview.src = post.featuredImage;
-                imagePreviewContainer.style.display = 'block';
-                uploadPlaceholder.style.display = 'none';
-            } else {
-                featuredImageUrl.value = '';
-                imagePreviewContainer.style.display = 'none';
-                uploadPlaceholder.style.display = 'block';
-            }
             
             updateCharCounts();
             postModal.style.display = 'flex';
@@ -426,93 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // PHASE 1: IMAGE UPLOAD
-    // ============================================
-
-    uploadPlaceholder.addEventListener('click', () => imageInput.click());
-    
-    imageUploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        imageUploadArea.classList.add('drag-over');
-    });
-    
-    imageUploadArea.addEventListener('dragleave', () => {
-        imageUploadArea.classList.remove('drag-over');
-    });
-    
-    imageUploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        imageUploadArea.classList.remove('drag-over');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            handleImageUpload(file);
-        }
-    });
-    
-    imageInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) handleImageUpload(file);
-    });
-    
-    removeImageBtn.addEventListener('click', () => {
-        featuredImageUrl.value = '';
-        imageInput.value = '';
-        imagePreviewContainer.style.display = 'none';
-        uploadPlaceholder.style.display = 'block';
-    });
-    
-    async function handleImageUpload(file) {
-        // Validate file size (5MB max)
-        if (file.size > 5 * 1024 * 1024) {
-            alert('Image must be less than 5MB');
-            return;
-        }
-        
-        // Show preview immediately
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            imagePreview.src = e.target.result;
-            uploadPlaceholder.style.display = 'none';
-            imagePreviewContainer.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-        
-        // Upload to Firebase Storage
-        try {
-            const timestamp = Date.now();
-            const filename = `blog-images/${timestamp}_${file.name}`;
-            const storageRef = ref(storage, filename);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-            
-            uploadProgress.style.display = 'block';
-            
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    progressFill.style.width = progress + '%';
-                    progressText.textContent = Math.round(progress) + '%';
-                },
-                (error) => {
-                    console.error('❌ Upload error:', error);
-                    alert('Image upload failed. Please try again.');
-                    uploadProgress.style.display = 'none';
-                },
-                async () => {
-                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                    featuredImageUrl.value = downloadURL;
-                    uploadProgress.style.display = 'none';
-                    console.log('✅ Image uploaded:', downloadURL);
-                }
-            );
-            
-        } catch (error) {
-            console.error('❌ Error uploading image:', error);
-            alert('Image upload failed. Please try again.');
-        }
-    }
-
-    // ============================================
-    // PHASE 1: TAGS MANAGEMENT
+    // TAGS MANAGEMENT
     // ============================================
 
     tagsInput.addEventListener('keydown', (e) => {
@@ -539,10 +387,8 @@ document.addEventListener('DOMContentLoaded', () => {
             tagsDisplay.appendChild(tagEl);
         });
         
-        // Update hidden field
         tagsData.value = JSON.stringify(selectedTags);
         
-        // Attach remove listeners
         tagsDisplay.querySelectorAll('.tag-remove').forEach(btn => {
             btn.addEventListener('click', () => {
                 const index = parseInt(btn.dataset.index);
@@ -560,25 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirm('Are you sure you want to delete this post? This cannot be undone.')) return;
 
         try {
-            // Get post to delete image if exists
-            const postRef = doc(db, 'blog-posts', postId);
-            const postSnap = await getDoc(postRef);
-            
-            if (postSnap.exists()) {
-                const post = postSnap.data();
-                
-                // Delete image from Storage if exists
-                if (post.featuredImage) {
-                    try {
-                        const imageRef = ref(storage, post.featuredImage);
-                        await deleteObject(imageRef);
-                    } catch (err) {
-                        console.warn('Could not delete image:', err);
-                    }
-                }
-            }
-            
-            await deleteDoc(postRef);
+            await deleteDoc(doc(db, 'blog-posts', postId));
             console.log('✅ Post deleted:', postId);
             loadPosts();
         } catch (error) {
@@ -588,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // SAVE POST (Create or Update)
+    // SAVE POST
     // ============================================
 
     postForm.addEventListener('submit', async (e) => {
@@ -610,7 +438,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: postContentField.value.trim(),
                 published: postPublished.checked,
                 tags: selectedTags,
-                featuredImage: featuredImageUrl.value || null,
                 updatedAt: serverTimestamp()
             };
 

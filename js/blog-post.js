@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const draftBadge       = document.getElementById('draftBadge');
     
     // PHASE 1: New elements
-    const featuredImageEl  = document.getElementById('featuredImage');
+   
     const tagsContainer    = document.getElementById('postTags');
 
     // Get post ID from URL
@@ -82,11 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             draftBadge.style.display = 'inline-block';
         }
         
-        // PHASE 1: Featured Image
-        if (post.featuredImage && featuredImageEl) {
-            featuredImageEl.src = post.featuredImage;
-            featuredImageEl.style.display = 'block';
-        }
+ 
         
         // PHASE 1: Tags
         if (post.tags && post.tags.length > 0 && tagsContainer) {
