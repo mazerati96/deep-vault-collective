@@ -1,5 +1,5 @@
 // ============================================================
-//  PHASE 1 Enhanced Blog — Rich Editor + Images + Tags + Search
+//  PHASE 1 Enhanced Blog — Rich Editor + Tags + Search
 //  Preserves your existing Firebase v10 modular structure
 // ============================================================
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
                     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['link', 'image'],
+     
                     ['clean']
                 ]
             }
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // CREATE POST CARD (Enhanced with image + tags)
+    // CREATE POST CARD (Enhanced with + tags)
     // ============================================
 
     function createPostCard(post, postId, index) {
@@ -267,22 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let html = '';
 
-        // PHASE 1: Featured Image
-        if (post.featuredImage) {
-            html += `<div class="post-card-image">
-                <img src="${post.featuredImage}" alt="${escapeHtml(post.title)}" loading="lazy" />
-            </div>`;
-        }
 
-        if (!post.published && currentUser) {
-            html += `<div class="post-draft-badge">DRAFT</div>`;
-        }
-
-        html += `
-            <div class="post-meta">
-                <span class="post-meta-date">${postDate}</span>
-            </div>
-        `;
 
         // PHASE 1: Tags display
         if (post.tags && post.tags.length > 0) {
