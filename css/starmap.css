@@ -98,12 +98,11 @@ body {
 }
 
     .starmap-background img {
-        /* Scale by height so the map always fills vertically.
-           CRITICAL: Use a FIXED minimum height so dots don't shift on mobile! */
+        /* CRITICAL FIX: Scale ONLY by height to preserve aspect ratio!
+           This keeps dots in correct horizontal positions */
         height: 120vh;
-        min-height: 800px; /* ← ADDED: Prevents image from getting too small on mobile */
-        min-width: 100vw;
-        width: auto;
+        width: auto; /* ← Let width scale naturally with aspect ratio */
+        /* REMOVED min-width: 100vw - this was stretching the image and shifting dots! */
         max-width: none;
         object-fit: contain;
         object-position: center;
