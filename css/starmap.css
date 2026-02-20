@@ -99,10 +99,10 @@ body {
 
     .starmap-background img {
         /* Scale by height so the map always fills vertically.
-           On very wide screens we bump to a larger minimum so
-           the image never appears smaller / off-centre. */
+           CRITICAL: Use a FIXED minimum height so dots don't shift on mobile! */
         height: 120vh;
-        min-width: 100vw; /* ← prevents the image from being narrower than the viewport */
+        min-height: 800px; /* ← ADDED: Prevents image from getting too small on mobile */
+        min-width: 100vw;
         width: auto;
         max-width: none;
         object-fit: contain;
@@ -249,7 +249,7 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE - MOBILE FIX
+   RESPONSIVE
    ============================================ */
 
 @media (max-width: 768px) {
@@ -266,10 +266,8 @@ body {
         padding: 14px 6px;
     }
 
-    /* CRITICAL FIX: Keep hotspot size the same to prevent position shifts!
-       Just make them brighter/more visible instead of smaller */
+    /* Make hotspots more visible on mobile */
     .planet-hotspot {
-        /* DON'T change width/height - this keeps dots in correct positions! */
         background: radial-gradient(circle, rgba(0, 217, 255, 0.5) 0%, transparent 70%);
         border: 2.5px solid rgba(0, 217, 255, 0.8);
         box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
