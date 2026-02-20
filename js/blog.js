@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allPosts = [];
             snapshot.forEach((docSnap) => {
                 const post = docSnap.data();
-                const postId = docSnap.id();
+                const postId = docSnap.id;
 
                 // Skip drafts for public visitors
                 if (!post.published && !currentUser) return;
