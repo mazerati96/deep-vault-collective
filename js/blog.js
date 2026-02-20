@@ -1,4 +1,3 @@
-
 // ============================================================
 //  PHASE 1 Enhanced Blog — Rich Editor + Images + Tags + Search
 //  Preserves your existing Firebase v10 modular structure
@@ -12,19 +11,12 @@ import {
     query,
     orderBy,
     getDocs,
-    getDoc,
     addDoc,
     updateDoc,
     deleteDoc,
     doc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-// PHASE 1: Add Firebase Storage
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-const storage = getStorage();
 
 let currentUser = null;
 let editingPostId = null;
@@ -63,18 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // PHASE 1: Search & Filter
     const searchInput = document.getElementById('searchInput');
     const categoryPills = document.getElementById('categoryPills');
-
-    // PHASE 1: Image upload
-    const imageUploadArea = document.getElementById('imageUploadArea');
-    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-    const imageInput = document.getElementById('imageInput');
-    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    const imagePreview = document.getElementById('imagePreview');
-    const removeImageBtn = document.getElementById('removeImageBtn');
-    const uploadProgress = document.getElementById('uploadProgress');
-    const progressFill = document.getElementById('progressFill');
-    const progressText = document.getElementById('progressText');
-    const featuredImageUrl = document.getElementById('featuredImageUrl');
 
     // PHASE 1: Tags
     const tagsInput = document.getElementById('tagsInput');
@@ -360,11 +340,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!quillEditor) initQuillEditor();
         quillEditor.setContents([]);
         
-        // Clear image
-        featuredImageUrl.value = '';
-        imagePreviewContainer.style.display = 'none';
-        uploadPlaceholder.style.display = 'block';
-        
         updateCharCounts();
         postModal.style.display = 'flex';
     });
@@ -404,110 +379,12 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedTags = post.tags || [];
             updateTagsDisplay();
             
-            // Load image
-            if (post.featuredImage) {
-                featuredImageUrl.value = post.featuredImage;
-                imagePreview.src = post.featuredImage;
-                imagePreviewContainer.style.display = 'block';
-                uploadPlaceholder.style.display = 'none';
-            } else {
-                featuredImageUrl.value = '';
-                imagePreviewContainer.style.display = 'none';
-                uploadPlaceholder.style.display = 'block';
-            }
-            
             updateCharCounts();
             postModal.style.display = 'flex';
             
         } catch (error) {
             console.error('❌ Error loading post for edit:', error);
             alert('Error loading post. Please try again.');
-        }
-    }
-
-    // ============================================
-    // PHASE 1: IMAGE UPLOAD
-    // ============================================
-
-    uploadPlaceholder.addEventListener('click', () => imageInput.click());
-    
-    imageUploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        imageUploadArea.classList.add('drag-over');
-    });
-    
-    imageUploadArea.addEventListener('dragleave', () => {
-        imageUploadArea.classList.remove('drag-over');
-    });
-    
-    imageUploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        imageUploadArea.classList.remove('drag-over');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            handleImageUpload(file);
-        }
-    });
-    
-    imageInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) handleImageUpload(file);
-    });
-    
-    removeImageBtn.addEventListener('click', () => {
-        featuredImageUrl.value = '';
-        imageInput.value = '';
-        imagePreviewContainer.style.display = 'none';
-        uploadPlaceholder.style.display = 'block';
-    });
-    
-    async function handleImageUpload(file) {
-        // Validate file size (5MB max)
-        if (file.size > 5 * 1024 * 1024) {
-            alert('Image must be less than 5MB');
-            return;
-        }
-        
-        // Show preview immediately
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            imagePreview.src = e.target.result;
-            uploadPlaceholder.style.display = 'none';
-            imagePreviewContainer.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-        
-        // Upload to Firebase Storage
-        try {
-            const timestamp = Date.now();
-            const filename = `blog-images/${timestamp}_${file.name}`;
-            const storageRef = ref(storage, filename);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-            
-            uploadProgress.style.display = 'block';
-            
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    progressFill.style.width = progress + '%';
-                    progressText.textContent = Math.round(progress) + '%';
-                },
-                (error) => {
-                    console.error('❌ Upload error:', error);
-                    alert('Image upload failed. Please try again.');
-                    uploadProgress.style.display = 'none';
-                },
-                async () => {
-                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                    featuredImageUrl.value = downloadURL;
-                    uploadProgress.style.display = 'none';
-                    console.log('✅ Image uploaded:', downloadURL);
-                }
-            );
-            
-        } catch (error) {
-            console.error('❌ Error uploading image:', error);
-            alert('Image upload failed. Please try again.');
         }
     }
 
@@ -560,25 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirm('Are you sure you want to delete this post? This cannot be undone.')) return;
 
         try {
-            // Get post to delete image if exists
-            const postRef = doc(db, 'blog-posts', postId);
-            const postSnap = await getDoc(postRef);
-            
-            if (postSnap.exists()) {
-                const post = postSnap.data();
-                
-                // Delete image from Storage if exists
-                if (post.featuredImage) {
-                    try {
-                        const imageRef = ref(storage, post.featuredImage);
-                        await deleteObject(imageRef);
-                    } catch (err) {
-                        console.warn('Could not delete image:', err);
-                    }
-                }
-            }
-            
-            await deleteDoc(postRef);
+            await deleteDoc(doc(db, 'blog-posts', postId));
             console.log('✅ Post deleted:', postId);
             loadPosts();
         } catch (error) {
@@ -610,7 +469,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: postContentField.value.trim(),
                 published: postPublished.checked,
                 tags: selectedTags,
-                featuredImage: featuredImageUrl.value || null,
                 updatedAt: serverTimestamp()
             };
 

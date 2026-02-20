@@ -6,7 +6,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"; // ← ADD THIS LINE
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyAwZMXM8GKjxqLi49IDAtYQ-qOh8xwfPGw",
@@ -23,4 +23,3 @@ const app = initializeApp(firebaseConfig);
 // Export auth and db so other modules can import them
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const storage = getStorage(app);
