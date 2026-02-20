@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tales from the Vault | Deep Vault Collective</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/blog.css" />
+</head>
+<body>
+
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay">
+        <ul class="nav-menu">
+            <li><a href="starmap.html">HOME</a></li>
+            <li><a href="about.html">ABOUT THE AUTHOR</a></li>
+            <li><a href="worlds.html">WORLDS & STORIES</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="author-login.html">AUTHOR LOGIN</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Transition -->
+    <div class="page-transition"></div>
+
+    <!-- Blog Container -->
+    <div class="blog-container">
+
+        <!-- Header -->
+        <div class="blog-header">
+            <h1 class="blog-title">TALES FROM THE VAULT</h1>
+            <p class="blog-subtitle">Musings on worldbuilding, storytelling, and the creative process</p>
+
+            <!-- New Post Button (only visible when logged in) -->
+            <button class="new-post-btn" id="newPostBtn" style="display: none;">
+                <span class="btn-icon">✦</span> NEW POST
+            </button>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="posts-grid" id="postsGrid">
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>Loading tales...</p>
+            </div>
+
+            <!-- Empty State (shown when no posts) -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📖</div>
+                <h2>No Tales Yet</h2>
+                <p>The vault is currently empty. Check back soon for new stories!</p>
+            </div>
+
+            <!-- Posts will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Edit/Create Post Modal -->
+    <div class="modal" id="postModal" style="display: none;">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">CREATE NEW POST</h2>
+                <button class="modal-close" id="modalClose">✕</button>
+            </div>
+
+            <form class="post-form" id="postForm">
+                <!-- Title Input -->
+                <div class="form-group">
+                    <label for="postTitle">POST TITLE</label>
+                    <input type="text"
+                           id="postTitle"
+                           name="title"
+                           placeholder="Enter a captivating title..."
+                           required
+                           maxlength="200" />
+                    <span class="char-count" id="titleCount">0 / 200</span>
+                </div>
+
+                <!-- Excerpt Input -->
+                <div class="form-group">
+                    <label for="postExcerpt">EXCERPT (PREVIEW TEXT)</label>
+                    <textarea id="postExcerpt"
+                              name="excerpt"
+                              rows="3"
+                              placeholder="A brief preview of your post..."
+                              required
+                              maxlength="300"></textarea>
+                    <span class="char-count" id="excerptCount">0 / 300</span>
+                </div>
+
+                <!-- Content Input (Main Body) -->
+                <div class="form-group">
+                    <label for="postContent">CONTENT</label>
+                    <textarea id="postContent"
+                              name="content"
+                              rows="16"
+                              placeholder="Write your story here... (Markdown supported: **bold**, *italic*, [link](url))"
+                              required></textarea>
+                    <div class="editor-toolbar">
+                        <button type="button" class="toolbar-btn" data-md="**bold**" title="Bold">B</button>
+                        <button type="button" class="toolbar-btn" data-md="*italic*" title="Italic">I</button>
+                        <button type="button" class="toolbar-btn" data-md="[link](url)" title="Link">🔗</button>
+                    </div>
+                </div>
+
+                <!-- Status Toggle -->
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="postPublished" name="published" />
+                        <span class="checkbox-text">PUBLISH IMMEDIATELY</span>
+                        <small>Unchecked = save as draft</small>
+                    </label>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">CANCEL</button>
+                    <button type="submit" class="btn-primary" id="saveBtn">
+                        <span class="btn-text">SAVE POST</span>
+                        <span class="btn-loading" style="display: none;">SAVING...</span>
+                    </button>
+                </div>
+
+                <!-- Hidden field for post ID (used when editing) -->
+                <input type="hidden" id="postId" name="id" />
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <!-- Scripts -->
+    <script src="../auth/firebase-config.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/blog.js"></script>
+
+</body>
+</html>

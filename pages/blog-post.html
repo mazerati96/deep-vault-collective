@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post | Deep Vault Collective</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/blog-post.css" />
+</head>
+<body>
+
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay">
+        <ul class="nav-menu">
+            <li><a href="starmap.html">HOME</a></li>
+            <li><a href="about.html">ABOUT THE AUTHOR</a></li>
+            <li><a href="worlds.html">WORLDS & STORIES</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="author-login.html">AUTHOR LOGIN</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Transition -->
+    <div class="page-transition"></div>
+
+    <!-- Loading State -->
+    <div class="loading-container" id="loadingContainer">
+        <div class="loading-spinner"></div>
+        <p>Loading post...</p>
+    </div>
+
+    <!-- Post Container -->
+    <article class="post-container" id="postContainer" style="display: none;">
+
+        <!-- Back Button -->
+        <a href="blog.html" class="back-link">← BACK TO BLOG</a>
+
+        <!-- Post Header -->
+        <header class="post-header">
+            <div class="post-meta">
+                <span class="post-date" id="postDate"></span>
+                <span class="post-draft-badge" id="draftBadge" style="display: none;">DRAFT</span>
+            </div>
+            <h1 class="post-title" id="postTitle"></h1>
+        </header>
+
+        <!-- Post Content -->
+        <div class="post-content" id="postContent">
+            <!-- Markdown content will be rendered here -->
+        </div>
+
+        <!-- Post Footer -->
+        <footer class="post-footer">
+            <a href="blog.html" class="footer-link">← Read more tales from the vault</a>
+        </footer>
+
+    </article>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <!-- Scripts -->
+    <script src="../auth/firebase-config.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/blog-post.js"></script>
+
+</body>
+</html>
