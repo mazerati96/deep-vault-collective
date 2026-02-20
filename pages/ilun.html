@@ -6,6 +6,9 @@
     <title>Ilun | Deep Vault Collective</title>
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/ilun.css" />
+    <!-- progress-bar.css provides the shared bar/edit panel layout.
+         ilun.css overrides the colour tokens to match this world's cyan palette. -->
+    <link rel="stylesheet" href="../css/progress-bar.css" />
 </head>
 <body>
 
@@ -87,20 +90,41 @@
             <span class="divider-line"></span>
         </div>
 
-        <!-- Synopsis -->
-        <div class="synopsis-block">
-            <div class="synopsis-label">SYNOPSIS</div>
-            <p class="synopsis-text">
-                Jace Akeris is a commander under the federation's army who has to bring a rebel
-                world to heel. He's served with vigor for most of his young life into his early
-                twenties. With his squad of angels (mechs with metal wings) they take the fight
-                to the surface of the anarchist's world. But what he finds there, in secret
-                communication with rebel leaders, will change his view of the federation forever.
-            </p>
+        <!-- Book Card
+             ┌─────────────────────────────────────────────────────────┐
+             │  Ilun's original page used a raw synopsis-block div     │
+             │  instead of a .book-card. It's been restructured into   │
+             │  the standard card pattern so that progress-bar.js can  │
+             │  attach the bar and badge the same way as every other   │
+             │  world page. The ilun.css book-card styles were added   │
+             │  to match. data-book-id is unique site-wide.            │
+             └─────────────────────────────────────────────────────────┘ -->
+        <div class="book-cards-stack">
+            <div class="book-card" data-book-id="ilun-ad-astra">
+                <div class="book-card-header">
+                    <div class="book-number">STARBORN — BOOK ONE</div>
+                    <!-- Badge text is intentionally empty here.
+                         progress-bar.js populates it from Firestore on load
+                         so the author never has to touch the HTML again. -->
+                    <span class="status-badge in-progress"></span>
+                </div>
+                <h3 class="book-card-title">Ad Astra</h3>
+                <div class="book-card-series">Starborn</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    Jace Akeris is a commander under the federation's army who has to bring a rebel
+                    world to heel. He's served with vigor for most of his young life into his early
+                    twenties. With his squad of angels (mechs with metal wings) they take the fight
+                    to the surface of the anarchist's world. But what he finds there, in secret
+                    communication with rebel leaders, will change his view of the federation forever.
+                </p>
+                <!-- progress-bar.js injects the bar block here at the bottom of the card -->
+            </div>
         </div>
 
         <!-- Divider -->
-        <div class="section-divider">
+        <div class="section-divider" style="margin-top: 70px;">
             <span class="divider-line"></span>
             <span class="divider-icon">✦</span>
             <span class="divider-line"></span>
@@ -150,7 +174,10 @@
     </div>
 
     <script src="../js/navigation.js"></script>
+    <!-- auth-badge.js must load before progress-bar.js so Firebase is
+         initialised (via firebase-config.js) before the module runs. -->
     <script type="module" src="../auth/auth-badge.js"></script>
+    <script type="module" src="../js/progress-bar.js"></script>
 
 </body>
 </html>

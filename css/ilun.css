@@ -1,6 +1,7 @@
 /* ============================================
    ILUN — WORLD PAGE STYLES
-    ============================================ */
+   Primary: #00d9ff (federation cyan)
+   ============================================ */
 
 body {
     background: #000;
@@ -256,18 +257,12 @@ body {
 }
 
 /* ============================================
-   SYNOPSIS
+   SYNOPSIS (legacy — kept for reference but
+   the content now lives inside .book-card below)
    ============================================ */
 
 .synopsis-block {
     animation: fadeInUp 0.9s ease-out 0.3s both;
-}
-
-.synopsis-label {
-    font-size: 0.6rem;
-    letter-spacing: 6px;
-    color: rgba(0, 217, 255, 0.6);
-    margin-bottom: 24px;
 }
 
 .synopsis-text {
@@ -279,6 +274,121 @@ body {
     border-left: 2px solid rgba(0, 217, 255, 0.25);
     padding-left: 28px;
 }
+
+/* ============================================
+   BOOK CARDS
+   (Added to support the progress bar system —
+   ilun.html now wraps its synopsis in a .book-card
+   so progress-bar.js can attach the bar and badge
+   the same way it does on every other world page.)
+   ============================================ */
+
+.book-cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    animation: fadeInUp 0.9s ease-out 0.3s both;
+}
+
+.book-card {
+    background: rgba(0, 217, 255, 0.02);
+    border: 1px solid rgba(0, 217, 255, 0.1);
+    border-left: 3px solid rgba(0, 217, 255, 0.45);
+    padding: 32px 36px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+    .book-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.04), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .book-card:hover::before {
+        left: 150%;
+    }
+
+    .book-card:hover {
+        background: rgba(0, 217, 255, 0.04);
+        border-color: rgba(0, 217, 255, 0.25);
+    }
+
+.book-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.book-number {
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    color: rgba(0, 217, 255, 0.6);
+}
+
+.book-card-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 200;
+    letter-spacing: 3px;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.book-card-series {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: rgba(0, 217, 255, 0.5);
+    margin-bottom: 20px;
+}
+
+.book-card-divider {
+    height: 1px;
+    background: linear-gradient(to right, rgba(0, 217, 255, 0.18), transparent);
+    margin-bottom: 20px;
+}
+
+.synopsis-label {
+    font-size: 0.6rem;
+    letter-spacing: 6px;
+    color: rgba(0, 217, 255, 0.6);
+    margin-bottom: 16px;
+}
+
+.book-card-synopsis {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   STATUS BADGE
+   ============================================ */
+
+.status-badge {
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+    .status-badge.in-progress {
+        background: rgba(0, 217, 255, 0.07);
+        border: 1px solid rgba(0, 217, 255, 0.3);
+        color: #00d9ff;
+    }
 
 /* ============================================
    WORLD DETAILS GRID
@@ -434,6 +544,16 @@ body {
         text-align: center;
     }
 
+    .book-card {
+        padding: 24px 20px;
+    }
+
+    .book-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .book-card-synopsis,
     .synopsis-text {
         font-size: 1rem;
     }
@@ -444,3 +564,79 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================
+   PROGRESS BAR — ILUN COLOUR OVERRIDES
+   ============================================
+   progress-bar.css ships with Astraea's orange/red palette
+   as its default. The overrides below re-skin every element
+   to Ilun's federation cyan (#00d9ff) palette.
+   All selectors are scoped to .book-card so they won't
+   bleed into any other world's styles.
+   ============================================ */
+
+/* Border above the bar block */
+.book-card .book-progress {
+    border-top-color: rgba(0, 217, 255, 0.12);
+}
+
+/* Stage label text */
+.book-card .progress-stage {
+    color: rgba(0, 217, 255, 0.8);
+}
+
+/* Fill bar — deep teal → federation cyan gradient */
+.book-card .progress-fill {
+    background: linear-gradient(90deg, rgba(0, 150, 180, 0.6), #00d9ff);
+    box-shadow: 0 0 8px rgba(0, 217, 255, 0.35);
+}
+
+/* EDIT button (author only) */
+.book-card .progress-edit-btn {
+    border-color: rgba(0, 217, 255, 0.22);
+    color: rgba(0, 217, 255, 0.5);
+}
+
+    .book-card .progress-edit-btn:hover {
+        border-color: rgba(0, 217, 255, 0.55);
+        color: #00d9ff;
+    }
+
+/* Edit panel border */
+.book-card .progress-edit-panel {
+    border-color: rgba(0, 217, 255, 0.1);
+}
+
+/* Edit panel field labels */
+.book-card .progress-field label {
+    color: rgba(0, 217, 255, 0.5);
+}
+
+/* Edit panel text inputs */
+.book-card .progress-field input {
+    border-color: rgba(0, 217, 255, 0.14);
+}
+
+    .book-card .progress-field input:focus {
+        border-color: rgba(0, 217, 255, 0.42);
+    }
+
+/* Save button */
+.book-card .progress-save-btn {
+    background: rgba(0, 217, 255, 0.08);
+    border-color: rgba(0, 217, 255, 0.3);
+    color: #00d9ff;
+}
+
+    .book-card .progress-save-btn:hover:not(:disabled) {
+        background: rgba(0, 217, 255, 0.16);
+    }
+
+/* Checkbox accent */
+.book-card .progress-complete-row input[type="checkbox"] {
+    accent-color: #00d9ff;
+}
+
+/* Status badge — in-progress state handled by .status-badge.in-progress above.
+   The is-complete (green) state is inherited from progress-bar.css and
+   intentionally stays green on all worlds — it's a universal signal. */

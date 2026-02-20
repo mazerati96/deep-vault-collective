@@ -6,6 +6,9 @@
     <title>Legatius | Deep Vault Collective</title>
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/legatius.css" />
+    <!-- progress-bar.css provides the shared bar/edit panel layout.
+         legatius.css then overrides the colour tokens to match this world's palette. -->
+    <link rel="stylesheet" href="../css/progress-bar.css" />
 </head>
 <body>
 
@@ -90,12 +93,21 @@
             <span class="divider-line"></span>
         </div>
 
-        <!-- Book Card -->
+        <!-- Book Card
+             ┌─────────────────────────────────────────────────────────┐
+             │  data-book-id — unique Firestore key for this book.     │
+             │  Must be unique site-wide. Convention: world-bookslug.  │
+             │  progress-bar.js finds this attribute automatically and  │
+             │  fetches/renders the bar + keeps the badge in sync.     │
+             └─────────────────────────────────────────────────────────┘ -->
         <div class="book-cards-stack">
-            <div class="book-card">
+            <div class="book-card" data-book-id="legatius-the-one-i-forgot">
                 <div class="book-card-header">
                     <div class="book-number">STANDALONE NOVEL</div>
-                    <span class="status-badge in-progress">FIRST DRAFT IN PROGRESS</span>
+                    <!-- Badge text is intentionally empty here.
+                         progress-bar.js populates it from Firestore on load
+                         so the author never has to touch the HTML again. -->
+                    <span class="status-badge in-progress"></span>
                 </div>
                 <h3 class="book-card-title">The One I Forgot</h3>
                 <div class="book-card-series">Legatius</div>
@@ -113,6 +125,7 @@
                     entirely forgotten with an entity he has no memory of ever being there, or
                     any memory for that matter.
                 </p>
+                <!-- progress-bar.js injects the bar block here at the bottom of the card -->
             </div>
         </div>
 
@@ -168,7 +181,10 @@
 
     <script src="../js/navigation.js"></script>
     <script src="../js/legatius.js"></script>
+    <!-- auth-badge.js must load before progress-bar.js so Firebase is
+         initialised (via firebase-config.js) before the module runs. -->
     <script type="module" src="../auth/auth-badge.js"></script>
+    <script type="module" src="../js/progress-bar.js"></script>
 
 </body>
 </html>

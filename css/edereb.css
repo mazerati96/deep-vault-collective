@@ -63,7 +63,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Deep, cold, almost-black with a blue-grey core glow */
     background: radial-gradient(ellipse at 50% 55%, rgba(30, 55, 70, 0.55) 0%, transparent 60%), radial-gradient(ellipse at center, #000 0%, #050b0f 50%, #030709 100%);
     overflow: hidden;
 }
@@ -141,7 +140,7 @@ body {
     font-weight: 400;
 }
 
-/* Planet name — heavier weight than ilun, feels more oppressive */
+/* Planet name */
 .hero-title {
     font-size: clamp(4.5rem, 15vw, 11rem);
     font-weight: 100;
@@ -592,3 +591,80 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================
+   PROGRESS BAR — EDEREB COLOUR OVERRIDES
+   ============================================
+   progress-bar.css ships with Astraea's orange/red palette
+   as its default. The overrides below re-skin every element
+   to Edereb's steel grey-blue (#7aabbd) / cold highlight palette.
+   All selectors are scoped to .book-card on this page so they
+   won't bleed into any other world's styles.
+   ============================================ */
+
+/* Border above the bar block */
+.book-card .book-progress {
+    border-top-color: rgba(122, 171, 189, 0.12);
+}
+
+/* Stage label text */
+.book-card .progress-stage {
+    color: rgba(122, 171, 189, 0.8);
+}
+
+/* Fill bar — deep slate → steel blue gradient to match the world palette.
+   The subtle glow uses the same cold blue the rest of the page breathes. */
+.book-card .progress-fill {
+    background: linear-gradient(90deg, rgba(74, 122, 138, 0.6), #7aabbd);
+    box-shadow: 0 0 8px rgba(122, 171, 189, 0.3);
+}
+
+/* EDIT button (author only) */
+.book-card .progress-edit-btn {
+    border-color: rgba(122, 171, 189, 0.22);
+    color: rgba(122, 171, 189, 0.5);
+}
+
+    .book-card .progress-edit-btn:hover {
+        border-color: rgba(122, 171, 189, 0.55);
+        color: #7aabbd;
+    }
+
+/* Edit panel border */
+.book-card .progress-edit-panel {
+    border-color: rgba(122, 171, 189, 0.1);
+}
+
+/* Edit panel field labels */
+.book-card .progress-field label {
+    color: rgba(122, 171, 189, 0.5);
+}
+
+/* Edit panel text inputs */
+.book-card .progress-field input {
+    border-color: rgba(122, 171, 189, 0.14);
+}
+
+    .book-card .progress-field input:focus {
+        border-color: rgba(122, 171, 189, 0.42);
+    }
+
+/* Save button */
+.book-card .progress-save-btn {
+    background: rgba(122, 171, 189, 0.08);
+    border-color: rgba(122, 171, 189, 0.3);
+    color: #7aabbd;
+}
+
+    .book-card .progress-save-btn:hover:not(:disabled) {
+        background: rgba(122, 171, 189, 0.16);
+    }
+
+/* Checkbox accent */
+.book-card .progress-complete-row input[type="checkbox"] {
+    accent-color: #7aabbd;
+}
+
+/* Status badge — in-progress state already handled by edereb.css above.
+   The is-complete (green) state is inherited from progress-bar.css and
+   intentionally stays green on all worlds — it's a universal signal. */

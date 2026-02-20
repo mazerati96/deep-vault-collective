@@ -646,3 +646,130 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================
+   PROGRESS BAR — WULD COLOUR OVERRIDES
+   ============================================
+   Wuld has two card types with different palettes:
+     - Trilogy cards (.book-card but NOT .companion-card) → arcane green #00d97e
+     - Companion cards (.companion-card)                  → rune purple #c084fc
+   Two override blocks below handle each independently.
+   All selectors are scoped tightly so they don't bleed
+   into any other world page's styles.
+   ============================================ */
+
+/* ── TRILOGY CARDS (green) ─────────────────── */
+
+/* Scoped to book-cards that are NOT companion cards */
+.book-cards-stack .book-card .book-progress {
+    border-top-color: rgba(0, 217, 126, 0.12);
+}
+
+.book-cards-stack .book-card .progress-stage {
+    color: rgba(0, 217, 126, 0.8);
+}
+
+/* Fill bar — deep forest → arcane green gradient */
+.book-cards-stack .book-card .progress-fill {
+    background: linear-gradient(90deg, rgba(0, 130, 75, 0.6), #00d97e);
+    box-shadow: 0 0 8px rgba(0, 217, 126, 0.35);
+}
+
+.book-cards-stack .book-card .progress-edit-btn {
+    border-color: rgba(0, 217, 126, 0.22);
+    color: rgba(0, 217, 126, 0.5);
+}
+
+    .book-cards-stack .book-card .progress-edit-btn:hover {
+        border-color: rgba(0, 217, 126, 0.55);
+        color: #00d97e;
+    }
+
+.book-cards-stack .book-card .progress-edit-panel {
+    border-color: rgba(0, 217, 126, 0.1);
+}
+
+.book-cards-stack .book-card .progress-field label {
+    color: rgba(0, 217, 126, 0.5);
+}
+
+.book-cards-stack .book-card .progress-field input {
+    border-color: rgba(0, 217, 126, 0.14);
+}
+
+    .book-cards-stack .book-card .progress-field input:focus {
+        border-color: rgba(0, 217, 126, 0.42);
+    }
+
+.book-cards-stack .book-card .progress-save-btn {
+    background: rgba(0, 217, 126, 0.08);
+    border-color: rgba(0, 217, 126, 0.3);
+    color: #00d97e;
+}
+
+    .book-cards-stack .book-card .progress-save-btn:hover:not(:disabled) {
+        background: rgba(0, 217, 126, 0.16);
+    }
+
+.book-cards-stack .book-card .progress-complete-row input[type="checkbox"] {
+    accent-color: #00d97e;
+}
+
+/* ── COMPANION CARDS (purple) ──────────────── */
+
+.companion-card .book-progress {
+    border-top-color: rgba(192, 132, 252, 0.12);
+}
+
+.companion-card .progress-stage {
+    color: rgba(192, 132, 252, 0.8);
+}
+
+/* Fill bar — deep violet → rune purple gradient */
+.companion-card .progress-fill {
+    background: linear-gradient(90deg, rgba(120, 60, 190, 0.6), #c084fc);
+    box-shadow: 0 0 8px rgba(192, 132, 252, 0.35);
+}
+
+.companion-card .progress-edit-btn {
+    border-color: rgba(192, 132, 252, 0.22);
+    color: rgba(192, 132, 252, 0.5);
+}
+
+    .companion-card .progress-edit-btn:hover {
+        border-color: rgba(192, 132, 252, 0.55);
+        color: #c084fc;
+    }
+
+.companion-card .progress-edit-panel {
+    border-color: rgba(192, 132, 252, 0.1);
+}
+
+.companion-card .progress-field label {
+    color: rgba(192, 132, 252, 0.5);
+}
+
+.companion-card .progress-field input {
+    border-color: rgba(192, 132, 252, 0.14);
+}
+
+    .companion-card .progress-field input:focus {
+        border-color: rgba(192, 132, 252, 0.42);
+    }
+
+.companion-card .progress-save-btn {
+    background: rgba(192, 132, 252, 0.08);
+    border-color: rgba(192, 132, 252, 0.3);
+    color: #c084fc;
+}
+
+    .companion-card .progress-save-btn:hover:not(:disabled) {
+        background: rgba(192, 132, 252, 0.16);
+    }
+
+.companion-card .progress-complete-row input[type="checkbox"] {
+    accent-color: #c084fc;
+}
+
+/* The is-complete (green) state from progress-bar.css is intentionally
+   left unchanged on both card types — green means done, universally. */
