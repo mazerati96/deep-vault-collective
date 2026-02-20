@@ -1,0 +1,1 @@
+console.log('Omicros — the smallest of our worlds, yet full of potential. Awaiting its stories to unfold.');

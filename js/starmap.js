@@ -26,13 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Planet data
     const planetData = {
         wuld: { name: 'Wuld', link: 'wuld.html' },
-        jesnen: { name: 'Jesnen', description: 'Coming soon...', link: 'worlds.html' },
+        jesnen: { name: 'Jesnen', link: 'jesnen.html' },
         ilun: { name: 'Ilun', link: 'ilun.html' },
-        westelox: { name: 'Westelox', description: 'Coming soon...', link: 'worlds.html' },
-        xenderon: { name: 'Xenderon (Hell)', description: 'Coming soon...', link: 'worlds.html' },
-        vyomi: { name: 'Vyomi (Heaven)', description: 'Coming soon...', link: 'worlds.html' },
+        westelox: { name: 'Westelox', link: 'westelox.html' },
+        xenderon: { name: 'Xenderon (Hell)', link: 'xenderon.html' },
+        vyomi: { name: 'Vyomi (Heaven)',link: 'vyomi.html' },
         edereb: { name: 'Edereb', link: 'edereb.html' },
-        omicros: { name: 'Omicros', description: 'Coming soon...', link: 'worlds.html' },
+        omicros: { name: 'Omicros', link: 'omicros.html' },
         astraea: { name: 'Astraea', link: 'astraea.html' },
         rexus: { name: 'Rexus', link: 'rexus.html' },
         legatius: { name: 'Legatius', link: 'legatius.html' }
