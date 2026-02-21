@@ -17,6 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const authError = document.getElementById('errorMessage'); // matches your HTML id
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const eyeOffIcon = document.getElementById('eyeOffIcon');
+
+    // ── Password visibility toggle ──
+    passwordToggle.addEventListener('click', () => {
+        const isHidden = passwordInput.type === 'password';
+        passwordInput.type = isHidden ? 'text' : 'password';
+        eyeIcon.style.display = isHidden ? 'none' : 'block';
+        eyeOffIcon.style.display = isHidden ? 'block' : 'none';
+    });
 
     // ── If already logged in, skip straight to dashboard ──
     onAuthStateChanged(auth, (user) => {
