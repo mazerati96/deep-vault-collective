@@ -504,6 +504,7 @@ body {
 
     .hero-title {
         letter-spacing: 14px;
+        font-size: clamp(2.8rem, 12vw, 6rem);
     }
 
     .hero-eyebrow {
@@ -552,5 +553,17 @@ body {
 
     .coming-soon-divider {
         width: 85%;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 11vw, 3.5rem);
+        letter-spacing: 8px;
+    }
+}
+
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: clamp(1.6rem, 10vw, 2.8rem);
+        letter-spacing: 5px;
     }
 }

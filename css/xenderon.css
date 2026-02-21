@@ -512,8 +512,11 @@ body {
         padding: 70px 24px 80px;
     }
 
+    /* Reduce letter-spacing so the title doesn't overflow horizontally */
     .hero-title {
         letter-spacing: 12px;
+        /* Tighten the clamp so the title stays within the viewport on mobile */
+        font-size: clamp(2.8rem, 12vw, 6rem);
     }
 
     .hero-eyebrow {
@@ -562,5 +565,19 @@ body {
 
     .coming-soon-divider {
         width: 85%;
+    }
+
+    /* Further reduce title size and spacing on very small screens */
+    .hero-title {
+        font-size: clamp(2rem, 11vw, 3.5rem);
+        letter-spacing: 6px;
+    }
+}
+
+/* Catch-all for extremely narrow devices (e.g. 320px) */
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: clamp(1.6rem, 10vw, 2.8rem);
+        letter-spacing: 4px;
     }
 }
