@@ -266,130 +266,115 @@ body {
 }
 
 /* ============================================
-   COMING SOON CARD
+   BOOK CARD
    ============================================ */
 
-.coming-soon-card {
-    border: 1px solid rgba(224, 48, 48, 0.15);
-    border-left: 3px solid rgba(224, 48, 48, 0.55);
-    background: rgba(224, 48, 48, 0.03);
-    padding: 60px 40px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+.book-cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
     animation: fadeInUp 0.9s ease-out 0.3s both;
 }
 
-    /* Slow fire shimmer sweep */
-    .coming-soon-card::before {
+.book-card {
+    background: rgba(224, 48, 48, 0.02);
+    border: 1px solid rgba(224, 48, 48, 0.1);
+    border-left: 3px solid rgba(224, 48, 48, 0.5);
+    padding: 32px 36px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+    .book-card::before {
         content: '';
         position: absolute;
         top: 0;
         left: -150%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(224, 48, 48, 0.06), transparent);
-        animation: cardShimmer 5s ease-in-out infinite;
+        background: linear-gradient(90deg, transparent, rgba(224, 48, 48, 0.05), transparent);
+        transition: left 0.6s ease;
     }
 
-@keyframes cardShimmer {
-    0% {
-        left: -150%;
-    }
-
-    100% {
+    .book-card:hover::before {
         left: 150%;
     }
-}
 
-.coming-soon-inner {
-    position: relative;
-    z-index: 1;
-}
-
-.coming-soon-icon {
-    font-size: 3rem;
-    color: rgba(224, 48, 48, 0.5);
-    margin-bottom: 20px;
-    animation: iconPulse 3s ease-in-out infinite;
-    display: block;
-}
-
-@keyframes iconPulse {
-    0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
+    .book-card:hover {
+        background: rgba(224, 48, 48, 0.04);
+        border-color: rgba(224, 48, 48, 0.25);
     }
 
-    50% {
-        opacity: 0.9;
-        transform: scale(1.08);
-    }
-}
-
-.coming-soon-label {
-    font-size: 0.6rem;
-    letter-spacing: 7px;
-    color: rgba(224, 48, 48, 0.6);
-    margin-bottom: 18px;
-}
-
-.coming-soon-title {
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 200;
-    letter-spacing: 6px;
-    color: #fff;
-    margin-bottom: 20px;
-}
-
-.coming-soon-text {
-    font-size: 1rem;
-    line-height: 2;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    margin-bottom: 30px;
-}
-
-.coming-soon-divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(224, 48, 48, 0.2), transparent);
-    margin: 28px auto;
-    width: 60%;
-}
-
-.coming-soon-status {
+.book-card-header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 10px;
+    margin-bottom: 16px;
 }
 
-.status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #e03030;
-    animation: statusBlink 2s ease-in-out infinite;
-}
-
-@keyframes statusBlink {
-    0%, 100% {
-        opacity: 0.3;
-        box-shadow: none;
-    }
-
-    50% {
-        opacity: 1;
-        box-shadow: 0 0 8px rgba(224, 48, 48, 0.8);
-    }
-}
-
-.status-text {
+.book-number {
     font-size: 0.6rem;
     letter-spacing: 5px;
-    color: rgba(224, 48, 48, 0.6);
+    color: rgba(224, 48, 48, 0.62);
 }
+
+.book-card-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 200;
+    letter-spacing: 3px;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.book-card-series {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: rgba(224, 48, 48, 0.5);
+    margin-bottom: 20px;
+}
+
+.book-card-divider {
+    height: 1px;
+    background: linear-gradient(to right, rgba(224, 48, 48, 0.2), transparent);
+    margin-bottom: 20px;
+}
+
+.synopsis-label {
+    font-size: 0.6rem;
+    letter-spacing: 6px;
+    color: rgba(224, 48, 48, 0.55);
+    margin-bottom: 16px;
+}
+
+.book-card-synopsis {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 300;
+    letter-spacing: 0.4px;
+}
+
+/* ============================================
+   STATUS BADGE
+   ============================================ */
+
+.status-badge {
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+    .status-badge.outlining {
+        background: rgba(255, 160, 30, 0.07);
+        border: 1px solid rgba(255, 160, 30, 0.32);
+        color: #ffa01e;
+    }
 
 /* ============================================
    WORLD DETAILS GRID
@@ -512,10 +497,8 @@ body {
         padding: 70px 24px 80px;
     }
 
-    /* Reduce letter-spacing so the title doesn't overflow horizontally */
     .hero-title {
         letter-spacing: 12px;
-        /* Tighten the clamp so the title stays within the viewport on mobile */
         font-size: clamp(2.8rem, 12vw, 6rem);
     }
 
@@ -549,8 +532,17 @@ body {
         text-align: center;
     }
 
-    .coming-soon-card {
-        padding: 40px 20px;
+    .book-card {
+        padding: 24px 20px;
+    }
+
+    .book-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .book-card-synopsis {
+        font-size: 0.95rem;
     }
 
     .book-title {
@@ -563,21 +555,97 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .coming-soon-divider {
-        width: 85%;
-    }
-
-    /* Further reduce title size and spacing on very small screens */
     .hero-title {
         font-size: clamp(2rem, 11vw, 3.5rem);
         letter-spacing: 6px;
     }
 }
 
-/* Catch-all for extremely narrow devices (e.g. 320px) */
 @media (max-width: 360px) {
     .hero-title {
         font-size: clamp(1.6rem, 10vw, 2.8rem);
         letter-spacing: 4px;
     }
 }
+
+
+/* ============================================
+   PROGRESS BAR — XENDERON COLOUR OVERRIDES
+   ============================================
+   progress-bar.css defaults to Astraea's orange.
+   These overrides re-skin every element to
+   Xenderon's hellfire red (#e03030) palette.
+   All selectors scoped to .book-card.
+   ============================================ */
+
+/* Border above the bar block */
+.book-card .book-progress {
+    border-top-color: rgba(224, 48, 48, 0.12);
+}
+
+/* Stage label text */
+.book-card .progress-stage {
+    color: rgba(224, 48, 48, 0.85);
+}
+
+/* Fill bar — deep crimson → hellfire red gradient */
+.book-card .progress-fill {
+    background: linear-gradient(90deg, rgba(140, 0, 0, 0.65), #e03030);
+    box-shadow: 0 0 8px rgba(224, 48, 48, 0.4);
+}
+
+/* EDIT button (author only) */
+.book-card .progress-edit-btn {
+    border-color: rgba(224, 48, 48, 0.22);
+    color: rgba(224, 48, 48, 0.5);
+}
+
+    .book-card .progress-edit-btn:hover {
+        border-color: rgba(224, 48, 48, 0.6);
+        color: #e03030;
+    }
+
+/* Edit panel border */
+.book-card .progress-edit-panel {
+    border-color: rgba(224, 48, 48, 0.1);
+}
+
+/* Edit panel field labels */
+.book-card .progress-field label {
+    color: rgba(224, 48, 48, 0.55);
+}
+
+/* Edit panel text inputs */
+.book-card .progress-field input {
+    border-color: rgba(224, 48, 48, 0.14);
+}
+
+    .book-card .progress-field input:focus {
+        border-color: rgba(224, 48, 48, 0.45);
+    }
+
+/* Save button */
+.book-card .progress-save-btn {
+    background: rgba(224, 48, 48, 0.1);
+    border-color: rgba(224, 48, 48, 0.35);
+    color: #e03030;
+}
+
+    .book-card .progress-save-btn:hover:not(:disabled) {
+        background: rgba(224, 48, 48, 0.2);
+    }
+
+/* Checkbox accent */
+.book-card .progress-complete-row input[type="checkbox"] {
+    accent-color: #e03030;
+}
+
+/* Status badge — outlining state */
+.status-badge.outlining {
+    background: rgba(255, 160, 30, 0.07);
+    border: 1px solid rgba(255, 160, 30, 0.32);
+    color: #ffa01e;
+}
+
+/* The is-complete (green) state is inherited from progress-bar.css
+   and intentionally stays green on all worlds — universal signal. */
