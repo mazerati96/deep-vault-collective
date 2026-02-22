@@ -74,7 +74,7 @@
 /* ── Track + fill ── */
 
 .progress-track {
-    height: 3px;
+    height: 15px; /*changed from 3px to test out height difference*/
     background: rgba(255, 255, 255, 0.06);
     border-radius: 2px;
     overflow: hidden;
