@@ -24,7 +24,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(ellipse at 50% 45%, rgba(180, 80, 120, 0.35) 0%, transparent 62%), radial-gradient(ellipse at center, rgba(0,0,0,0.88) 0%, rgba(10,4,8,0.90) 50%, rgba(7,2,5,0.88) 100%);
+    /* Removed the heavy black radial fill — canvas is the background now.
+       A very subtle vignette keeps text legible without burying the canvas. */
+    background: radial-gradient(ellipse at 50% 45%, rgba(180, 80, 120, 0.18) 0%, transparent 60%), radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(6,2,5,0.55) 60%, rgba(4,1,3,0.65) 100%);
     overflow: hidden;
 }
 
@@ -205,6 +207,7 @@ body {
     max-width: 860px;
     margin: 0 auto;
     padding: 100px 40px 100px;
+    /* No background — canvas shows through everywhere */
 }
 
 /* ============================================
