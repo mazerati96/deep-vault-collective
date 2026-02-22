@@ -6,6 +6,8 @@
     <title>Xenderon | Deep Vault Collective</title>
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/xenderon.css" />
+    <!-- progress-bar.css provides the shared bar/edit panel layout.
+         xenderon.css overrides the colour tokens to match this world's red palette. -->
     <link rel="stylesheet" href="../css/progress-bar.css" />
 </head>
 <body>
@@ -86,12 +88,15 @@
             <span class="divider-line"></span>
         </div>
 
-        <!-- Book Card -->
+        <!-- Book Card
+             data-book-id is required — progress-bar.js uses it to fetch
+             from Firestore and attach the progress bar. Must be unique site-wide.
+             Badge text is left empty — progress-bar.js populates it on load. -->
         <div class="book-cards-stack">
-            <div class="book-card">
+            <div class="book-card" data-book-id="xenderon-red-wake">
                 <div class="book-card-header">
                     <div class="book-number">STANDALONE NOVEL</div>
-                    <span class="status-badge outlining">OUTLINING</span>
+                    <span class="status-badge"></span>
                 </div>
                 <h3 class="book-card-title">Red Wake</h3>
                 <div class="book-card-series">Xenderon</div>
@@ -107,6 +112,7 @@
                     Navigating through monstrous creatures, other foul souls, and dangers beyond her imagining,
                     Vail has to try to survive in the world of Xenderon.
                 </p>
+                <!-- progress-bar.js injects the bar block here at the bottom of the card -->
             </div>
         </div>
 
@@ -152,8 +158,10 @@
 
     <script src="../js/navigation.js"></script>
     <script src="../js/xenderon.js"></script>
-    <script src="../js/progress-bar.js"></script>
+    <!-- auth-badge.js MUST load before progress-bar.js so Firebase is
+         initialised (via firebase-config.js) before the module runs. -->
     <script type="module" src="../auth/auth-badge.js"></script>
+    <script type="module" src="../js/progress-bar.js"></script>
 
 </body>
 </html>
