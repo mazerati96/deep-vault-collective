@@ -6,6 +6,9 @@
     <title>Vyomi | Deep Vault Collective</title>
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/vyomi.css" />
+    <!-- progress-bar.css provides the shared bar/edit panel layout.
+         vyomi.css overrides the colour tokens to match this world's pink palette. -->
+    <link rel="stylesheet" href="../css/progress-bar.css" />
 </head>
 <body>
 
@@ -21,7 +24,7 @@
         <ul class="nav-menu">
             <li><a href="starmap.html">HOME</a></li>
             <li><a href="about.html">ABOUT THE AUTHOR</a></li>
-            <li><a href="worlds.html">WORLDS & STORIES</a></li>
+            <li><a href="worlds.html">WORLDS &amp; STORIES</a></li>
             <li><a href="blog.html">BLOG</a></li>
             <li><a href="contact.html">CONTACT</a></li>
             <li><a href="author-login.html">AUTHOR LOGIN</a></li>
@@ -60,8 +63,8 @@
             </div>
 
             <div class="hero-series-badge">
-                <div class="badge-top">THE FIRMAMENT OF VEL</div>
-                <div class="badge-bottom">HEAVEN PLANET</div>
+                <div class="badge-top">STANDALONE NOVEL</div>
+                <div class="badge-bottom">ONE WORK</div>
             </div>
         </div>
 
@@ -72,8 +75,8 @@
     <div class="vyomi-container">
 
         <div class="book-title-block">
-            <div class="book-label">VYOMI</div>
-            <h2 class="book-title">Not all light<br />is gentle.</h2>
+            <div class="book-label">THE GARDEN OF STORIES</div>
+            <h2 class="book-title">The gardener had been taking care<br />of souls for eons. Until now.</h2>
         </div>
 
         <div class="section-divider">
@@ -82,21 +85,31 @@
             <span class="divider-line"></span>
         </div>
 
-        <!-- Coming Soon Card -->
-        <div class="coming-soon-card">
-            <div class="coming-soon-inner">
-                <div class="coming-soon-icon">&#10022;</div>
-                <div class="coming-soon-label">LORE CLASSIFIED</div>
-                <h3 class="coming-soon-title">Coming Soon</h3>
-                <p class="coming-soon-text">
-                    The stories of Vyomi are still ascending.<br />
-                    Check back when the gates part.
-                </p>
-                <div class="coming-soon-divider"></div>
-                <div class="coming-soon-status">
-                    <span class="status-dot"></span>
-                    <span class="status-text">WORKS IN DEVELOPMENT</span>
+        <!-- Book Card
+             data-book-id is required — progress-bar.js uses it to fetch
+             from Firestore and attach the progress bar. Must be unique site-wide.
+             Badge text is left empty — progress-bar.js populates it on load. -->
+        <div class="book-cards-stack">
+            <div class="book-card" data-book-id="vyomi-garden-of-stories">
+                <div class="book-card-header">
+                    <div class="book-number">STANDALONE NOVEL</div>
+                    <span class="status-badge"></span>
                 </div>
+                <h3 class="book-card-title">The Garden Of Stories</h3>
+                <div class="book-card-series">Vyomi</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    The gardener had been taking care of souls for eons, until now.
+                    <br /><br />
+                    Kalay had kept the paradise planet of Vyomi in good shape for as long as her existence
+                    permitted. But then a causal shift happened. The pillars of chaos and order had blinked
+                    out and vanished from the system — throwing the polarity balance into disarray.
+                    <br /><br />
+                    Now Kalay must work to keep the paradise planet alive and thriving. Will the magnitude
+                    of the universe fall to the tilt?
+                </p>
+                <!-- progress-bar.js injects the bar block here at the bottom of the card -->
             </div>
         </div>
 
@@ -120,8 +133,8 @@
                 <div class="detail-value">Dark Fantasy</div>
             </div>
             <div class="detail-card">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">In Development</div>
+                <div class="detail-label">PROTAGONIST</div>
+                <div class="detail-value">Kalay</div>
             </div>
             <div class="detail-card">
                 <div class="detail-label">SYSTEM</div>
@@ -129,7 +142,7 @@
             </div>
             <div class="detail-card">
                 <div class="detail-label">TOTAL WORKS</div>
-                <div class="detail-value">TBA</div>
+                <div class="detail-value">1 (Standalone)</div>
             </div>
         </div>
 
@@ -142,7 +155,10 @@
 
     <script src="../js/navigation.js"></script>
     <script src="../js/vyomi.js"></script>
+    <!-- auth-badge.js MUST load before progress-bar.js so Firebase is
+         initialised (via firebase-config.js) before the module runs. -->
     <script type="module" src="../auth/auth-badge.js"></script>
+    <script type="module" src="../js/progress-bar.js"></script>
 
 </body>
 </html>
