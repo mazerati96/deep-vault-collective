@@ -5,7 +5,7 @@
 /* ── Loading skeleton (shown while Firestore fetches) ── */
 
 .progress-skeleton {
-    height: 3px;
+    height: 15px; /* changed from 3px to see how big the progress bar gets*/
     margin-top: 28px;
     border-radius: 2px;
     background: linear-gradient( 90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75% );
