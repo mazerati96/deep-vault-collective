@@ -1,3 +1,6 @@
+<!--  TO DO: Make dashboard editable, perhaps run a query off of other world pages to see which one is complete/published  -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,31 +55,31 @@
 
             <div class="action-card">
                 <div class="card-icon">📝</div>
-                <h3 class="card-title">Edit Blog</h3>
+                <h3 class="card-title">Edit Blog</h3><br />
                 <p class="card-desc">Create and manage blog posts</p><br />
                 <a href="blog-post.html" class="work-btn primary world-page-btn">Blog Posts Page</a>
             </div>
 
             <div class="action-card">
                 <div class="card-icon">🗺️</div>
-                <h3 class="card-title">Progress Bar Editor</h3>
-                <p class="card-desc">Update planet story progress bars</p>
-                <button class="card-btn">Coming Soon</button>
+                <h3 class="card-title">Progress Bar Editor</h3><br />
+                <p class="card-desc">Update each planet's respective page</p> <br/>
+                <a href="worlds.html" class="work-btn primary world-page-btn">Go To Worlds to Update Progress</a>
             </div>
 
             <div class="action-card">
                 <div class="card-icon">📧</div>
-                <h3 class="card-title">Messages</h3>
-                <p class="card-desc">View contact form submissions</p>
-                <button class="card-btn">Coming Soon</button>
+                <h3 class="card-title">Messages</h3><br />
+                <p class="card-desc">View contact form submissions</p><br />
+                <button type="button" class="work-btn primary world-page-btn open-new-tab" data-url="https://workspace.google.com/intl/en-US/gmail/">Go To Gmail</button>
             </div>
 
-            <div class="action-card">
-                <div class="card-icon">🔗</div>
-                <h3 class="card-title">Links & Social</h3>
-                <p class="card-desc">Update Amazon links and social profiles</p>
-                <button class="card-btn">Coming Soon</button>
-            </div>
+            <!-- <div class="action-card">
+         <div class="card-icon">🔗</div>
+         <h3 class="card-title">Links & Social</h3>
+         <p class="card-desc">Update Amazon links and social profiles</p>
+         <button class="card-btn">Coming Soon</button>
+     </div> COMMENTED OUT FOR NOW TO TEST HOW THE PAGE WILL LOOK WITHOUT IT-->
 
         </div>
 
@@ -102,5 +105,17 @@
     <script type="module" src="../auth/dashboard.js"></script>
     <script src="../js/navigation.js"></script>
     <script type="module" src="../auth/auth-badge.js"></script>
+    <script>
+    (function(){
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.open-new-tab');
+        if (!btn) return;
+        const url = btn.getAttribute('data-url');
+        if (!url) return;
+        const newWin = window.open(url, '_blank');
+        if (newWin) newWin.opener = null; // mitigate tabnabbing
+      });
+    })();
+    </script>
 </body>
 </html>
