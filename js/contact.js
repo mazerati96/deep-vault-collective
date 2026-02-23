@@ -22,13 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = {
             name: form.name.value.trim(),
             email: form.email.value.trim(),
-            subject: form.subject.value.trim() || 'Message from Deep Vault Collective website',
+            subject: form.subject.value.trim() || 'Message from Johnathan Kemp website',
             message: form.message.value.trim()
         };
 
         try {
-            // Send to Vercel serverless function
-            const response = await fetch('/api/send-email', {
+            // Send to PHP mailer
+            const response = await fetch('/api/send-email.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnSending.style.display = 'none';
 
             console.error('Form submission error:', err);
-            alert('Something went wrong sending your message. Please try emailing directly at jkemp19992024@gmail.com');
+            alert('Something went wrong sending your message. Please try emailing directly at contact@johnathankemp.org');
         }
     });
 
