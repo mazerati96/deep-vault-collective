@@ -105,11 +105,17 @@ body {
     font-size: 2.5rem;
     font-weight: 300;
     letter-spacing: 8px;
-    background: linear-gradient(135deg, #ffffff 0%, #00d9ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    /* Fallback for browsers that don't support background-clip: text */
+    color: #ffffff;
     margin-bottom: 8px;
+}
+
+@supports (-webkit-background-clip: text) {
+    .dashboard-title {
+        background: linear-gradient(135deg, #ffffff 0%, #00d9ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 }
 
 .dashboard-subtitle {
@@ -304,5 +310,152 @@ body {
 
     .actions-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   DYNAMIC STATS — loading state
+   ============================================ */
+
+.stat-loading {
+    color: rgba(0, 217, 255, 0.3);
+    font-size: 2rem;
+    animation: statPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes statPulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* ============================================
+   WORLD STATUS BREAKDOWN
+   ============================================ */
+
+.progress-breakdown {
+    margin-top: 50px;
+    animation: fadeInUp 0.6s ease-out 0.5s both;
+}
+
+.breakdown-title {
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.breakdown-empty {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+}
+
+.breakdown-row {
+    display: grid;
+    grid-template-columns: 1fr 160px 1fr 48px;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+    .breakdown-row:hover {
+        border-color: rgba(0, 217, 255, 0.15);
+        background: rgba(0, 217, 255, 0.025);
+    }
+
+    .breakdown-row.is-complete {
+        border-color: rgba(74, 222, 128, 0.12);
+    }
+
+.breakdown-id {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.breakdown-stage {
+    font-size: 0.58rem;
+    letter-spacing: 3px;
+    color: rgba(0, 217, 255, 0.6);
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .breakdown-stage.complete {
+        color: rgba(74, 222, 128, 0.85);
+    }
+
+/* Mini progress track inside the breakdown row */
+.breakdown-track {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.breakdown-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0, 217, 255, 0.5), #00d9ff);
+    box-shadow: 0 0 6px rgba(0, 217, 255, 0.3);
+    transition: width 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .breakdown-fill.complete {
+        background: linear-gradient(90deg, #4ade80, #22d3ee);
+        box-shadow: 0 0 8px rgba(74, 222, 128, 0.35);
+    }
+
+.breakdown-pct {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ============================================
+   RESPONSIVE — breakdown
+   ============================================ */
+
+@media (max-width: 640px) {
+    .breakdown-row {
+        grid-template-columns: 1fr 48px;
+        grid-template-rows: auto auto;
+        gap: 8px 12px;
+    }
+
+    .breakdown-stage {
+        grid-column: 1;
+    }
+
+    .breakdown-track {
+        grid-column: 1 / -1;
+    }
+
+    .breakdown-pct {
+        grid-column: 2;
+        grid-row: 1;
     }
 }

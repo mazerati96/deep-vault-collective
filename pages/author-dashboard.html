@@ -1,5 +1,4 @@
-<!--  TO DO: Make dashboard editable, perhaps run a query off of other world pages to see which one is complete/published  -->
-
+<!--  Dynamic stats powered by dashboard-stats.js — queries Firestore /progress collection  -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +62,7 @@
             <div class="action-card">
                 <div class="card-icon">🗺️</div>
                 <h3 class="card-title">Progress Bar Editor</h3><br />
-                <p class="card-desc">Update each planet's respective page</p> <br/>
+                <p class="card-desc">Update each planet's respective page</p><br />
                 <a href="worlds.html" class="work-btn primary world-page-btn">Go To Worlds to Update Progress</a>
             </div>
 
@@ -74,28 +73,42 @@
                 <button type="button" class="work-btn primary world-page-btn open-new-tab" data-url="https://workspace.google.com/intl/en-US/gmail/">Go To Gmail</button>
             </div>
 
-            <!-- <div class="action-card">
-         <div class="card-icon">🔗</div>
-         <h3 class="card-title">Links & Social</h3>
-         <p class="card-desc">Update Amazon links and social profiles</p>
-         <button class="card-btn">Coming Soon</button>
-     </div> COMMENTED OUT FOR NOW TO TEST HOW THE PAGE WILL LOOK WITHOUT IT-->
+        </div>
+
+        <!-- Stats section — values populated dynamically by dashboard-stats.js -->
+        <div class="stats-section">
+
+            <div class="stat-card">
+                <!-- Count of progress docs where isComplete === true -->
+                <div class="stat-value" id="stat-published">
+                    <span class="stat-loading">…</span>
+                </div>
+                <div class="stat-label">Published Works</div>
+            </div>
+
+            <div class="stat-card">
+                <!-- Count of progress docs where isComplete === false (or percent > 0) -->
+                <div class="stat-value" id="stat-in-progress">
+                    <span class="stat-loading">…</span>
+                </div>
+                <div class="stat-label">Works In Progress</div>
+            </div>
+
+            <div class="stat-card">
+                <!-- Total number of docs in the progress collection -->
+                <div class="stat-value" id="stat-worlds">
+                    <span class="stat-loading">…</span>
+                </div>
+                <div class="stat-label">Worlds Mapped</div>
+            </div>
 
         </div>
 
-        <!-- Stats section (placeholder) -->
-        <div class="stats-section">
-            <div class="stat-card">
-                <div class="stat-value">2</div>
-                <div class="stat-label">Published Works</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">11</div>
-                <div class="stat-label">Worlds Mapped</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">—</div>
-                <div class="stat-label">Messages</div>
+        <!-- Progress breakdown — rendered by dashboard-stats.js -->
+        <div class="progress-breakdown" id="progress-breakdown">
+            <h3 class="breakdown-title">WORLD STATUS</h3>
+            <div class="breakdown-list" id="breakdown-list">
+                <!-- Rows injected here by JS -->
             </div>
         </div>
 
@@ -103,19 +116,20 @@
 
     <script type="module" src="../auth/firebase-config.js"></script>
     <script type="module" src="../auth/dashboard.js"></script>
+    <script type="module" src="../js/dashboard-stats.js"></script>
     <script src="../js/navigation.js"></script>
     <script type="module" src="../auth/auth-badge.js"></script>
     <script>
-    (function(){
-      document.addEventListener('click', function (e) {
-        const btn = e.target.closest('.open-new-tab');
-        if (!btn) return;
-        const url = btn.getAttribute('data-url');
-        if (!url) return;
-        const newWin = window.open(url, '_blank');
-        if (newWin) newWin.opener = null; // mitigate tabnabbing
-      });
-    })();
+        (function () {
+            document.addEventListener('click', function (e) {
+                const btn = e.target.closest('.open-new-tab');
+                if (!btn) return;
+                const url = btn.getAttribute('data-url');
+                if (!url) return;
+                const newWin = window.open(url, '_blank');
+                if (newWin) newWin.opener = null;
+            });
+        })();
     </script>
 </body>
 </html>
