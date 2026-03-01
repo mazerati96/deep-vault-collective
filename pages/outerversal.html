@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Outerversal Stories | Deep Vault Collective</title>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/outerversal.css" />
+    <link rel="stylesheet" href="../css/progress-bar.css" />
+</head>
+<body>
+
+    <!-- Void Background Canvas -->
+    <canvas id="outerversal-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"></canvas>
+
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay">
+        <ul class="nav-menu">
+            <li><a href="starmap.html">HOME</a></li>
+            <li><a href="about.html">ABOUT THE AUTHOR</a></li>
+            <li><a href="worlds.html">WORLDS &amp; STORIES</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="author-login.html">AUTHOR LOGIN</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Transition -->
+    <div class="page-transition"></div>
+
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <div class="ov-hero">
+        <div class="hero-grid-overlay"></div>
+        <div class="hero-scanline"></div>
+
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <span class="eyebrow-line"></span>
+                <span class="eyebrow-text">BEYOND THE KNOWN UNIVERSE</span>
+                <span class="eyebrow-line"></span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="hero-title-main">OUTERVERSAL</span>
+                <span class="hero-title-sub">STORIES</span>
+            </h1>
+
+            <div class="hero-eyebrow">
+                <span class="eyebrow-line"></span>
+                <span class="eyebrow-text">WHERE REALITY ENDS</span>
+                <span class="eyebrow-line"></span>
+            </div>
+
+            <div class="hero-tags">
+                <span class="hero-tag">COSMIC HORROR</span>
+                <span class="tag-dot">&middot;</span>
+                <span class="hero-tag">VOID FICTION</span>
+                <span class="tag-dot">&middot;</span>
+                <span class="hero-tag">DARK FANTASY</span>
+            </div>
+
+            <div class="hero-series-badge">
+                <div class="badge-top">STORY COLLECTION</div>
+                <div class="badge-bottom">6 WORKS</div>
+            </div>
+        </div>
+
+        <div class="hero-scroll-hint">SCROLL</div>
+    </div>
+
+    <!-- ============================================
+         MAIN CONTENT
+         ============================================ -->
+    <div class="ov-container">
+
+        <div class="book-title-block">
+            <div class="book-label">THE COLLECTION</div>
+            <h2 class="book-title">Stories from the space between spaces.<br />From the dark beyond the dark.</h2>
+        </div>
+
+        <div class="section-divider">
+            <span class="divider-line"></span>
+            <span class="divider-icon">&#10022;</span>
+            <span class="divider-line"></span>
+        </div>
+
+        <!-- ============================================
+             PUBLISHED
+             ============================================ -->
+        <h2 class="ov-section-heading">PUBLISHED</h2>
+
+        <div class="book-cards-stack">
+
+            <!-- ── THE TALE DEVOURER'S GRIMOIRE ────────────────────
+                 Published work — read buttons only, no progress bar.
+                 ──────────────────────────────────────────────────── -->
+            <div class="ov-card ov-card--published">
+                <div class="book-card-header">
+                    <div class="book-number">SHORT STORY COLLECTION</div>
+                    <span class="status-badge ov-badge--published">PUBLISHED</span>
+                </div>
+                <h3 class="book-card-title">The Tale Devourer's Grimoire</h3>
+                <div class="book-card-series">Outerversal Stories</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    A collection of dark fantasy short stories spanning the breadth of the
+                    Firmament of Vel. Each tale offers a unique glimpse into a different world
+                    connected by threads of mystery, ancient magic, and the relentless hunger
+                    of something that devours stories whole. Enter if you dare.
+                </p>
+                <!-- Published read buttons — styled to match worlds.html -->
+                <div class="ov-card-links">
+                    <a href="https://www.royalroad.com/fiction/146234/the-tale-devourers-grimoire"
+                       target="_blank" class="ov-link-btn">READ ON ROYAL ROAD</a>
+                    <a href="https://www.indielibrary.org/novel/1b8a1700-c348-40ba-8b36-b81c1c0d7e4c"
+                       target="_blank" class="ov-link-btn">INDIE LIBRARY</a>
+                </div>
+            </div>
+
+        </div>
+        <!-- END published stack -->
+
+        <div class="section-divider" style="margin-top: 60px;">
+            <span class="divider-line"></span>
+            <span class="divider-icon">&#10022;</span>
+            <span class="divider-line"></span>
+        </div>
+
+        <!-- ============================================
+             WORKS IN PROGRESS
+             Five cards, each with a progress bar injected
+             by progress-bar.js via data-book-id.
+             data-book-id values must be unique site-wide.
+             ============================================ -->
+        <h2 class="ov-section-heading">WORKS IN PROGRESS</h2>
+
+        <div class="book-cards-stack">
+
+            <!-- ── 1. VAULT OF STORIES ─────────────────────────────
+                 Choose Your Own Adventure standalone.
+                 ──────────────────────────────────────────────────── -->
+            <div class="ov-card book-card" data-book-id="outerversal-vault-of-stories">
+                <div class="book-card-header">
+                    <div class="book-number">CHOOSE YOUR OWN ADVENTURE</div>
+                    <span class="status-badge"></span>
+                </div>
+                <h3 class="book-card-title">Vault of Stories</h3>
+                <div class="book-card-series">Outerversal Stories</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    <!-- PLACEHOLDER: replace with your synopsis -->
+                    The vault has always been there, waiting. A place between stories, between
+                    worlds, between the lines of every tale ever told. Now the door is open,
+                    and the choices you make will determine which story you become part of.
+                </p>
+                <!-- progress-bar.js injects the progress bar here -->
+            </div>
+
+            <!-- ── 2. PROJECT STAR SPEAR — Book One ───────────────
+                 Sci-fi co-op series: The Star Spear Series
+                 ──────────────────────────────────────────────────── -->
+            <div class="ov-card book-card" data-book-id="outerversal-project-star-spear">
+                <div class="book-card-header">
+                    <div class="book-number">NOVEL &mdash; BOOK ONE</div>
+                    <span class="status-badge"></span>
+                </div>
+                <h3 class="book-card-title">Project Star Spear</h3>
+                <div class="book-card-series">Outerversal Stories &mdash; The Star Spear Series</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    <!-- PLACEHOLDER: replace with your synopsis -->
+                    The first entry in a sci-fi co-op series set at the edge of known space.
+                    
+                </p>
+                <!-- progress-bar.js injects the progress bar here -->
+            </div>
+
+            <!-- ── 3. PROJECT FALLEN NEBULAE — Book Two ──────────
+                 Sci-fi co-op series: The Star Spear Series
+                 ──────────────────────────────────────────────────── -->
+            <div class="ov-card book-card" data-book-id="outerversal-project-fallen-nebulae">
+                <div class="book-card-header">
+                    <div class="book-number">NOVEL &mdash; BOOK TWO</div>
+                    <span class="status-badge"></span>
+                </div>
+                <h3 class="book-card-title">Project Fallen Nebulae</h3>
+                <div class="book-card-series">Outerversal Stories &mdash; The Star Spear Series</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    <!-- PLACEHOLDER: replace with your synopsis -->
+                    The second chapter of The Co-Op Series. 
+                <!-- progress-bar.js injects the progress bar here -->
+            </div>
+
+            <!-- ── 4. PROJECT CLASH OF WILLS — Book Three ────────
+                 Sci-fi co-op series: The Star Spear Series
+                 ──────────────────────────────────────────────────── -->
+            <div class="ov-card book-card" data-book-id="outerversal-project-clash-of-wills">
+                <div class="book-card-header">
+                    <div class="book-number">NOVEL &mdash; BOOK THREE</div>
+                    <span class="status-badge"></span>
+                </div>
+                <h3 class="book-card-title">Project Clash of Wills</h3>
+                <div class="book-card-series">Outerversal Stories &mdash; The Star Spear Series</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    <!-- PLACEHOLDER: replace with your synopsis -->
+                    The conclusion of The Co-Op Series. 
+                </p>
+                <!-- progress-bar.js injects the progress bar here -->
+            </div>
+
+            <!-- ── 5. BOOKS OF ATRIA — Book One: Project Scarlet Desert ──
+                 Standalone series entry.
+                 ──────────────────────────────────────────────────── -->
+            <div class="ov-card book-card" data-book-id="outerversal-project-scarlet-desert">
+                <div class="book-card-header">
+                    <div class="book-number">NOVEL &mdash; BOOK ONE</div>
+                    <span class="status-badge"></span>
+                </div>
+                <h3 class="book-card-title">Project Scarlet Desert</h3>
+                <div class="book-card-series">Outerversal Stories &mdash; Books of Atria</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    <!-- PLACEHOLDER: replace with your synopsis -->
+                    The first book of the Books of Atria. 
+                </p>
+                <!-- progress-bar.js injects the progress bar here -->
+            </div>
+
+        </div>
+        <!-- END works-in-progress stack -->
+
+        <div class="section-divider" style="margin-top: 70px;">
+            <span class="divider-line"></span>
+            <span class="divider-icon">&#10022;</span>
+            <span class="divider-line"></span>
+        </div>
+
+        <!-- Collection details grid -->
+        <div class="world-details-grid">
+            <div class="detail-card">
+                <div class="detail-label">COLLECTION</div>
+                <div class="detail-value">Outerversal</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-label">DESIGNATION</div>
+                <div class="detail-value">Void Fiction</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-label">GENRE</div>
+                <div class="detail-value">Cosmic Horror</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-label">SETTING</div>
+                <div class="detail-value">Beyond the Universe</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-label">FORMAT</div>
+                <div class="detail-value">Mixed</div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-label">TOTAL WORKS</div>
+                <div class="detail-value">6</div>
+            </div>
+        </div>
+
+        <!-- CTA row -->
+        <div class="ov-cta">
+            <a href="worlds.html" class="cta-btn back">&larr; BACK TO WORLDS</a>
+            <a href="starmap.html" class="cta-btn primary">EXPLORE THE VAULT &rarr;</a>
+        </div>
+
+    </div>
+    <!-- END ov-container -->
+
+    <script src="../js/navigation.js"></script>
+    <script src="../js/outerversal.js"></script>
+    <!-- auth-badge.js MUST load before progress-bar.js so Firebase is
+         initialised (via firebase-config.js) before the module runs. -->
+    <script type="module" src="../auth/auth-badge.js"></script>
+    <script type="module" src="../js/progress-bar.js"></script>
+
+</body>
+</html>
