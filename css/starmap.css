@@ -201,6 +201,10 @@ body {
     animation-delay: 3s;
 }
 
+.planet:nth-child(12) .planet-hotspot {
+    animation-delay: 3.3s;
+}
+
 @keyframes pulseGlow {
     0%, 100% {
         transform: scale(1);
