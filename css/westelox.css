@@ -1,5 +1,5 @@
 /* ============================================
-   WESTELOX — WORLD PAGE STYLES
+   WESTELOX — WORLD PAGE STYLES (ENHANCED)
    Primary:  #38bdf8 (sky blue)
    Accent:   #bae6fd (soft baby blue highlight)
    Deep:     #0369a1 (deep cerulean)
@@ -257,7 +257,118 @@ body {
 }
 
 /* ============================================
-   COMING SOON CARD
+   BOOK CARD (NEW - Copied from Vyomi)
+   ============================================ */
+
+.book-cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    animation: fadeInUp 0.9s ease-out 0.3s both;
+}
+
+.book-card {
+    background: rgba(56, 189, 248, 0.02);
+    border: 1px solid rgba(56, 189, 248, 0.1);
+    border-left: 3px solid rgba(56, 189, 248, 0.5);
+    padding: 32px 36px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+    .book-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.05), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .book-card:hover::before {
+        left: 150%;
+    }
+
+    .book-card:hover {
+        background: rgba(56, 189, 248, 0.04);
+        border-color: rgba(56, 189, 248, 0.28);
+    }
+
+.book-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.book-number {
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    color: rgba(56, 189, 248, 0.62);
+}
+
+.book-card-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 200;
+    letter-spacing: 3px;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.book-card-series {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: rgba(56, 189, 248, 0.5);
+    margin-bottom: 20px;
+}
+
+.book-card-divider {
+    height: 1px;
+    background: linear-gradient(to right, rgba(56, 189, 248, 0.2), transparent);
+    margin-bottom: 20px;
+}
+
+.synopsis-label {
+    font-size: 0.6rem;
+    letter-spacing: 6px;
+    color: rgba(56, 189, 248, 0.55);
+    margin-bottom: 16px;
+}
+
+.book-card-synopsis {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 300;
+    letter-spacing: 0.4px;
+}
+
+/* ============================================
+   STATUS BADGE
+   ============================================ */
+
+.status-badge {
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+    .status-badge.in-progress {
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px solid rgba(56, 189, 248, 0.32);
+        color: #38bdf8;
+    }
+
+/* ============================================
+   COMING SOON CARD (Keep for reference)
    ============================================ */
 
 .coming-soon-card {
@@ -494,6 +605,80 @@ body {
 }
 
 /* ============================================
+   PROGRESS BAR — WESTELOX COLOUR OVERRIDES
+   ============================================
+   progress-bar.css defaults to Astraea's orange.
+   These overrides re-skin every element to
+   Westelox's sky blue (#38bdf8) palette.
+   All selectors scoped to .book-card.
+   ============================================ */
+
+/* Border above the bar block */
+.book-card .book-progress {
+    border-top-color: rgba(56, 189, 248, 0.12);
+}
+
+/* Stage label text */
+.book-card .progress-stage {
+    color: rgba(56, 189, 248, 0.85);
+}
+
+/* Fill bar — deep cerulean → sky blue gradient */
+.book-card .progress-fill {
+    background: linear-gradient(90deg, rgba(3, 105, 161, 0.65), #38bdf8);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+/* EDIT button (author only) */
+.book-card .progress-edit-btn {
+    border-color: rgba(56, 189, 248, 0.22);
+    color: rgba(56, 189, 248, 0.5);
+}
+
+    .book-card .progress-edit-btn:hover {
+        border-color: rgba(56, 189, 248, 0.6);
+        color: #38bdf8;
+    }
+
+/* Edit panel border */
+.book-card .progress-edit-panel {
+    border-color: rgba(56, 189, 248, 0.1);
+}
+
+/* Edit panel field labels */
+.book-card .progress-field label {
+    color: rgba(56, 189, 248, 0.55);
+}
+
+/* Edit panel text inputs */
+.book-card .progress-field input {
+    border-color: rgba(56, 189, 248, 0.14);
+}
+
+    .book-card .progress-field input:focus {
+        border-color: rgba(56, 189, 248, 0.45);
+    }
+
+/* Save button */
+.book-card .progress-save-btn {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+}
+
+    .book-card .progress-save-btn:hover:not(:disabled) {
+        background: rgba(56, 189, 248, 0.2);
+    }
+
+/* Checkbox accent */
+.book-card .progress-complete-row input[type="checkbox"] {
+    accent-color: #38bdf8;
+}
+
+/* The is-complete (green) state is inherited from progress-bar.css
+   and intentionally stays green on all worlds — universal signal. */
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 
@@ -535,6 +720,19 @@ body {
 
     .cta-btn {
         text-align: center;
+    }
+
+    .book-card {
+        padding: 24px 20px;
+    }
+
+    .book-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .book-card-synopsis {
+        font-size: 0.95rem;
     }
 
     .coming-soon-card {
