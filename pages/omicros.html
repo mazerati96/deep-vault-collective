@@ -8,6 +8,9 @@
     <title>Omicros | Deep Vault Collective</title>
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/omicros.css" />
+    <!-- progress-bar.css provides the shared bar/edit panel layout.
+         omicros.css overrides the colour tokens to match this world's orange palette. -->
+    <link rel="stylesheet" href="../css/progress-bar.css" />
 </head>
 <body>
 
@@ -23,7 +26,7 @@
         <ul class="nav-menu">
             <li><a href="starmap.html">HOME</a></li>
             <li><a href="about.html">ABOUT THE AUTHOR</a></li>
-            <li><a href="worlds.html">WORLDS & STORIES</a></li>
+            <li><a href="worlds.html">WORLDS &amp; STORIES</a></li>
             <li><a href="blog.html">BLOG</a></li>
             <li><a href="contact.html">CONTACT</a></li>
             <li><a href="author-login.html">AUTHOR LOGIN</a></li>
@@ -58,7 +61,7 @@
                 <span class="tag-dot">&middot;</span>
                 <span class="hero-tag">REALM OF ASH &amp; FIRE</span>
                 <span class="tag-dot">&middot;</span>
-                <span class="hero-tag">DARK FANTASY</span>
+                <span class="hero-tag">CALAMITY FANTASY</span>
             </div>
 
             <div class="hero-series-badge">
@@ -84,22 +87,38 @@
             <span class="divider-line"></span>
         </div>
 
-        <!-- Coming Soon Card -->
-        <div class="coming-soon-card">
-            <div class="coming-soon-inner">
-                <div class="coming-soon-icon">&#10022;</div>
-                <div class="coming-soon-label">LORE CLASSIFIED</div>
-                <h3 class="coming-soon-title">Coming Soon</h3>
-                <p class="coming-soon-text">
-                    The stories of Omicros are still smoldering.<br />
-                    Return when the embers have taken shape.
-                </p>
-                <div class="coming-soon-divider"></div>
-                <div class="coming-soon-status">
-                    <span class="status-dot"></span>
-                    <span class="status-text">WORKS IN DEVELOPMENT</span>
+        <!-- Book Card Stack -->
+        <!-- Add your book cards here! Each needs a unique data-book-id -->
+        <div class="book-cards-stack">
+
+            <!-- EXAMPLE BOOK CARD - Replace with your story -->
+            <div class="book-card" data-book-id="omicros-your-story-title">
+                <div class="book-card-header">
+                    <div class="book-number">STANDALONE NOVEL</div>
+                    <span class="status-badge"></span>
                 </div>
+                <h3 class="book-card-title">The Scourge Of S’Adlis</h3>
+                <div class="book-card-series">Omicros</div>
+                <div class="book-card-divider"></div>
+                <div class="synopsis-label">SYNOPSIS</div>
+                <p class="book-card-synopsis">
+                    The world went to shit about a hundred years ago. Ain’t been the same since I’m told.
+                    I’m Ros. A lone pilgrim that’s been making my way across the land of Tenshin for about twenty years. Left my ma and pa behind because they weren’t nothin to me.
+                    <br /><br />
+                    This land’s been harsh to me. Cannibals eatin people. Bandits ridin dragons. Government hold up with their swords and bows in one spot hopin to preserve what was. Whole place is fucked.
+                    <br /><br />
+                    But… I gotta keep treckin on. Gotta keep movin. If I get to where I wanna go, I might be able to fix what happened. Fix the calamity that broke the damn sphere.
+                </p>
+                <!-- progress-bar.js injects the bar block here at the bottom of the card -->
             </div>
+
+            <!-- ADD MORE BOOK CARDS AS NEEDED -->
+            <!-- Just copy the structure above and change:
+                 - data-book-id (must be unique!)
+                 - .book-card-title
+                 - .book-card-synopsis
+            -->
+
         </div>
 
         <div class="section-divider" style="margin-top: 70px;">
@@ -119,11 +138,11 @@
             </div>
             <div class="detail-card">
                 <div class="detail-label">GENRE</div>
-                <div class="detail-value">Dark Fantasy</div>
+                <div class="detail-value">Calamity Fantasy</div>
             </div>
             <div class="detail-card">
-                <div class="detail-label">STATUS</div>
-                <div class="detail-value">In Development</div>
+                <div class="detail-label">PROTAGONIST</div>
+                <div class="detail-value">Ros</div>
             </div>
             <div class="detail-card">
                 <div class="detail-label">SYSTEM</div>
@@ -131,7 +150,7 @@
             </div>
             <div class="detail-card">
                 <div class="detail-label">TOTAL WORKS</div>
-                <div class="detail-value">TBA</div>
+                <div class="detail-value">1 Novel</div>
             </div>
         </div>
 
@@ -144,7 +163,10 @@
 
     <script src="../js/navigation.js"></script>
     <script src="../js/omicros.js"></script>
+    <!-- auth-badge.js MUST load before progress-bar.js so Firebase is
+         initialised (via firebase-config.js) before the module runs. -->
     <script type="module" src="../auth/auth-badge.js"></script>
+    <script type="module" src="../js/progress-bar.js"></script>
 
 </body>
 </html>
